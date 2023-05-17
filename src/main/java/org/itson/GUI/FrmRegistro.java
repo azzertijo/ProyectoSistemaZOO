@@ -1,22 +1,86 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+/**
+ * FrmRegistro.java creada el 16/05/2023.
  */
 package org.itson.GUI;
 
+import javax.swing.JOptionPane;
+import org.itson.implementacion.Validador;
+
 /**
- *
- * @author kim
+ * Frame que permite a un guía registar un itinerario.
+ * @author kim, marki, elmer, yorx
  */
 public class FrmRegistro extends javax.swing.JFrame {
+
+    /**
+     * Atributo que sirve para validar los valores ingresados por el usario,
+     * para verificar que su formato sea correcto.
+     */
+    private Validador validador = new Validador();
 
     /**
      * Creates new form FrmRegistro
      */
     public FrmRegistro() {
         initComponents();
-            jLabel1.setIcon(new javax.swing.ImageIcon("src\\main\\java\\org\\itson\\img\\mapaZoo.jpg"));
+        jLabel1.setIcon(new javax.swing.ImageIcon("src\\main\\java\\org\\itson\\img\\mapaZoo.jpg"));
+        txtFldNumMaxVisitantes.setEditable(false);
+        txtFldDuracionMin.setEditable(false);
+    }
 
+    /**
+     * Método para mostrar un mensaje en pantalla, recibe una cadena de texto la
+     * cual es la que se desea mostrar en el mensaje informativo.
+     */
+    private void mostrarMensaje(String msj) {
+        JOptionPane.showMessageDialog(null, msj, "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    /**
+     * Método para obtener la hora de inicio que ingresa el guía para validarla, si el formato es
+     * correcto la regresa, de lo contrario regresa null.
+     * @return hora de inicio del itinerario.
+     */
+    private String obtenerHoraInicio() {
+        String hora = txtFldHoraInicio.getText();
+        try {
+            validador.validaHora(hora);
+            return hora;
+        } catch (Exception ex) {
+            mostrarMensaje(ex.getMessage());
+        }
+        return null;
+    }
+    /**
+     *  Método para obtener la hora de fin que ingresa el guía para validarla, si el formato es
+     * correcto la regresa, de lo contrario regresa null.
+     * @return hora de fin del itinerario.
+     */
+    private String obtenerHoraFin() {
+        String hora = txtFldHoraFin.getText();
+        try {
+            validador.validaHora(hora);
+            return hora;
+        } catch (Exception ex) {
+            mostrarMensaje(ex.getMessage());
+        }
+        return null;
+    }
+    
+    /**
+     *  Método para obtener el nombre del itinerario que ingresa el guía para validarla, si el formato es
+     * correcto la regresa, de lo contrario regresa null.
+     * @return nombre del itinerario.
+     */
+    private String obtenerNombreItinerario() {
+        String nom = txtFldNombreItinerario.getText();
+        try {
+            validador.validaNombreItinerario(nom);
+            return nom;
+        } catch (Exception ex) {
+            mostrarMensaje(ex.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -103,11 +167,6 @@ public class FrmRegistro extends javax.swing.JFrame {
         jCheckBoxDomingo.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         jCheckBoxDomingo.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxDomingo.setText("Domingo");
-        jCheckBoxDomingo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxDomingoActionPerformed(evt);
-            }
-        });
         pnlRegistro.add(jCheckBoxDomingo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 450, 110, -1));
 
         jCheckBoxLunes.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
@@ -118,11 +177,6 @@ public class FrmRegistro extends javax.swing.JFrame {
         jCheckBoxMartes.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         jCheckBoxMartes.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxMartes.setText("Martes");
-        jCheckBoxMartes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxMartesActionPerformed(evt);
-            }
-        });
         pnlRegistro.add(jCheckBoxMartes, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 110, -1));
 
         jCheckBoxMiercoles.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
@@ -143,25 +197,8 @@ public class FrmRegistro extends javax.swing.JFrame {
         jCheckBoxSabado.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         jCheckBoxSabado.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxSabado.setText("Sábado");
-        jCheckBoxSabado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxSabadoActionPerformed(evt);
-            }
-        });
         pnlRegistro.add(jCheckBoxSabado, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 550, 100, -1));
-
-        txtFldHoraInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldHoraInicioActionPerformed(evt);
-            }
-        });
         pnlRegistro.add(txtFldHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 660, 90, 30));
-
-        txtFldHoraFin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldHoraFinActionPerformed(evt);
-            }
-        });
         pnlRegistro.add(txtFldHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 700, 90, 30));
 
         jLblHoraI.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
@@ -178,31 +215,13 @@ public class FrmRegistro extends javax.swing.JFrame {
         jLblFormato.setForeground(new java.awt.Color(255, 255, 255));
         jLblFormato.setText("Formato 24 hrs");
         pnlRegistro.add(jLblFormato, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 630, -1, 20));
-
-        txtFldNumMaxVisitantes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldNumMaxVisitantesActionPerformed(evt);
-            }
-        });
         pnlRegistro.add(txtFldNumMaxVisitantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 530, 82, 30));
 
         jLblNomItinerario.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         jLblNomItinerario.setForeground(new java.awt.Color(255, 255, 255));
         jLblNomItinerario.setText("Nombre del itinerario:");
         pnlRegistro.add(jLblNomItinerario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 650, -1, 20));
-
-        txtFldNombreItinerario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldNombreItinerarioActionPerformed(evt);
-            }
-        });
         pnlRegistro.add(txtFldNombreItinerario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 680, 210, 30));
-
-        txtFldDuracionMin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldDuracionMinActionPerformed(evt);
-            }
-        });
         pnlRegistro.add(txtFldDuracionMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 530, 82, 30));
 
         jLblNumMaxVisitantes.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
@@ -248,6 +267,11 @@ public class FrmRegistro extends javax.swing.JFrame {
         btnRegistrar.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         btnRegistrar.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
         pnlRegistro.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 680, 160, 30));
 
         btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
@@ -256,7 +280,7 @@ public class FrmRegistro extends javax.swing.JFrame {
         btnCancelar.setText("Cancelar");
         pnlRegistro.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 680, 150, 30));
 
-        jPanel2.setBackground(new java.awt.Color(107, 149, 25));
+        jPanel2.setBackground(new java.awt.Color(103, 142, 25));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -321,39 +345,17 @@ public class FrmRegistro extends javax.swing.JFrame {
         getAccessibleContext().setAccessibleName("JRegistro");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFldDuracionMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldDuracionMinActionPerformed
+    /**
+     * Botón que se encarga de llamar al método que permite registar un itinerario.
+     * @param evt 
+     */
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldDuracionMinActionPerformed
-
-    private void txtFldNombreItinerarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldNombreItinerarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldNombreItinerarioActionPerformed
-
-    private void txtFldNumMaxVisitantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldNumMaxVisitantesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldNumMaxVisitantesActionPerformed
-
-    private void txtFldHoraFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraFinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldHoraFinActionPerformed
-
-    private void txtFldHoraInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldHoraInicioActionPerformed
-
-    private void jCheckBoxMartesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMartesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBoxMartesActionPerformed
-
-    private void jCheckBoxDomingoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDomingoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBoxDomingoActionPerformed
-
-    private void jCheckBoxSabadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSabadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBoxSabadoActionPerformed
+        obtenerHoraInicio();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments

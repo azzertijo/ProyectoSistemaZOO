@@ -1,20 +1,55 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+/**
+ * FrmBuscar.java creada el 16/05/2023.
  */
 package org.itson.GUI;
 
+import javax.swing.JOptionPane;
+import org.itson.implementacion.Validador;
+
 /**
+ * Frame que permite visualizar todos los itinerarios que tiene un guía.
  *
- * @author kim
+ * @author kim, marki, elmer, yorx
  */
 public class FrmBuscar extends javax.swing.JFrame {
+
+    /**
+     * Atributo que sirve para validar los valores ingresados por el usario,
+     * para verificar que su formato sea correcto.
+     */
+    private Validador validador = new Validador();
 
     /**
      * Creates new form FrmBuscar
      */
     public FrmBuscar() {
         initComponents();
+    }
+
+    /**
+     * Método para mostrar un mensaje en pantalla, recibe una cadena de texto la
+     * cual es la que se desea mostrar en el mensaje informativo.
+     */
+    private void mostrarMensaje(String msj) {
+        JOptionPane.showMessageDialog(null, msj, "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Método para obtener el nombre del itinerario que ingresa el guía para
+     * validarla, si el formato es correcto la regresa, de lo contrario regresa
+     * null.
+     *
+     * @return el nombre del itinerario.
+     */
+    private String obtenerNombreItinerario() {
+        String nom = txtFieldNombreItinerario.getText();
+        try {
+            validador.validaNombreItinerario(nom);
+            return nom;
+        } catch (Exception ex) {
+            mostrarMensaje(ex.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -34,12 +69,12 @@ public class FrmBuscar extends javax.swing.JFrame {
         txtFieldNombreItinerario = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JToggleButton();
         btnRegistro = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar Itinerario");
-        setMaximumSize(new java.awt.Dimension(1040, 730));
         setMinimumSize(new java.awt.Dimension(1040, 730));
-        setPreferredSize(new java.awt.Dimension(1040, 730));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -79,12 +114,43 @@ public class FrmBuscar extends javax.swing.JFrame {
         jLabel2.setText("Nombre intinerario: ");
 
         btnBuscar.setBackground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(0, 0, 0));
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnRegistro.setBackground(new java.awt.Color(255, 255, 255));
+        btnRegistro.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         btnRegistro.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistro.setText("Registrar nuevo");
+        btnRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistroActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nombre", "Días", "Horario"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,13 +159,16 @@ public class FrmBuscar extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFieldNombreItinerario, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFieldNombreItinerario, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -111,7 +180,9 @@ public class FrmBuscar extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtFieldNombreItinerario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 544, Short.MAX_VALUE)
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 317, Short.MAX_VALUE)
                 .addComponent(btnRegistro)
                 .addGap(58, 58, 58))
         );
@@ -119,7 +190,32 @@ public class FrmBuscar extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 730));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Botón que llama al método que se encarga de buscar un itinerario mediante
+     * su nombre.
+     *
+     * @param evt
+     */
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    /**
+     * Botón que redirige al frame de registro para que el guía pueda registrar
+     * un nuevo itinerario.
+     *
+     * @param evt
+     */
+    private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
+        // TODO add your handling code here:
+        FrmRegistro frmRegistro = new FrmRegistro();
+        frmRegistro.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegistroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,6 +259,8 @@ public class FrmBuscar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblNombreGuia;
     private javax.swing.JTextField txtFieldNombreItinerario;
     // End of variables declaration//GEN-END:variables
