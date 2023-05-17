@@ -3,7 +3,9 @@
  */
 package org.itson.GUI;
 
+import ObjNegocio.Itinerario;
 import javax.swing.JOptionPane;
+import org.itson.implementacion.RegistarItinerario;
 import org.itson.implementacion.Validador;
 
 /**
@@ -17,7 +19,9 @@ public class FrmRegistro extends javax.swing.JFrame {
      * para verificar que su formato sea correcto.
      */
     private Validador validador = new Validador();
-
+    RegistarItinerario registrar = new RegistarItinerario();
+   
+    
     /**
      * Creates new form FrmRegistro
      */
