@@ -256,7 +256,7 @@ public class FrmRegistro extends javax.swing.JFrame {
         btnCancelar.setText("Cancelar");
         pnlRegistro.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 680, 150, 30));
 
-        jPanel2.setBackground(new java.awt.Color(103, 142, 25));
+        jPanel2.setBackground(new java.awt.Color(107, 149, 25));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
