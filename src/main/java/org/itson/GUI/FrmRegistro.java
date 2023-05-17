@@ -137,23 +137,21 @@ public class FrmRegistro extends javax.swing.JFrame {
         return horaInicio;
     }
 
- 
     private void aramarItinerario() {
         ObjectId idGuia = new ObjectId("64647b7c99af833b487c674e");
-        
-        Itinerario itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), idGuia, 
+
+        Itinerario itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), idGuia,
                 construirListaDias(), construirHoras(obtenerHoraInicio()), construirHoras(obtenerHoraFin()), null);
         registrar.registarItinerario(itinerarioRegistro);
         txtFldNumMaxVisitantes.setText(String.valueOf(itinerarioRegistro.getMaxVisitantes()));
         txtFldDuracionMin.setText(String.valueOf("10"));
     }
-    
-    
-    private boolean espaciosVacios(){
-        if(txtFldHoraInicio.getText().isEmpty()|| txtFldHoraFin.getText().isEmpty()
-                || txtFldNombreItinerario.getText().isBlank()|| construirListaDias()!=null){
+
+    private boolean espaciosVacios() {
+        if (txtFldHoraInicio.getText().isEmpty() || txtFldHoraFin.getText().isEmpty()
+                || txtFldNombreItinerario.getText().isBlank() || construirListaDias() == null) {
             mostrarMensaje("El itinerario no tiene los datos completos.");
-             return true;
+            return true;
         }
         return false;
     }
@@ -431,10 +429,10 @@ public class FrmRegistro extends javax.swing.JFrame {
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        if(espaciosVacios()==true){
-            
-        }else{
-       aramarItinerario();
+        if (espaciosVacios() == true) {
+
+        } else {
+            aramarItinerario();
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
