@@ -3,13 +3,20 @@
  */
 package org.itson.GUI;
 
+import ObjNegocio.Dias;
+import ObjNegocio.Especie;
 import ObjNegocio.Itinerario;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import org.bson.types.ObjectId;
 import org.itson.implementacion.RegistarItinerario;
 import org.itson.implementacion.Validador;
 
 /**
  * Frame que permite a un guía registar un itinerario.
+ *
  * @author kim, marki, elmer, yorx
  */
 public class FrmRegistro extends javax.swing.JFrame {
@@ -20,8 +27,7 @@ public class FrmRegistro extends javax.swing.JFrame {
      */
     private Validador validador = new Validador();
     RegistarItinerario registrar = new RegistarItinerario();
-   
-    
+
     /**
      * Creates new form FrmRegistro
      */
@@ -39,10 +45,11 @@ public class FrmRegistro extends javax.swing.JFrame {
     private void mostrarMensaje(String msj) {
         JOptionPane.showMessageDialog(null, msj, "Información", JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     /**
-     * Método para obtener la hora de inicio que ingresa el guía para validarla, si el formato es
-     * correcto la regresa, de lo contrario regresa null.
+     * Método para obtener la hora de inicio que ingresa el guía para validarla,
+     * si el formato es correcto la regresa, de lo contrario regresa null.
+     *
      * @return hora de inicio del itinerario.
      */
     private String obtenerHoraInicio() {
@@ -55,9 +62,11 @@ public class FrmRegistro extends javax.swing.JFrame {
         }
         return null;
     }
+
     /**
-     *  Método para obtener la hora de fin que ingresa el guía para validarla, si el formato es
-     * correcto la regresa, de lo contrario regresa null.
+     * Método para obtener la hora de fin que ingresa el guía para validarla, si
+     * el formato es correcto la regresa, de lo contrario regresa null.
+     *
      * @return hora de fin del itinerario.
      */
     private String obtenerHoraFin() {
@@ -69,11 +78,14 @@ public class FrmRegistro extends javax.swing.JFrame {
             mostrarMensaje(ex.getMessage());
         }
         return null;
+        //12:50
     }
-    
+
     /**
-     *  Método para obtener el nombre del itinerario que ingresa el guía para validarla, si el formato es
-     * correcto la regresa, de lo contrario regresa null.
+     * Método para obtener el nombre del itinerario que ingresa el guía para
+     * validarla, si el formato es correcto la regresa, de lo contrario regresa
+     * null.
+     *
      * @return nombre del itinerario.
      */
     private String obtenerNombreItinerario() {
@@ -85,6 +97,65 @@ public class FrmRegistro extends javax.swing.JFrame {
             mostrarMensaje(ex.getMessage());
         }
         return null;
+    }
+
+    //(longitud, maxVisitantes, numEspecies, nombre, id, guia, dias, horaInicio, horaFin, especies);
+    private List<Dias> construirListaDias() {
+        List<Dias> dias = new ArrayList();
+        if (jCheckBoxDomingo.isSelected()) {
+            dias.add(Dias.DOMINGO);
+        }
+        if (jCheckBoxLunes.isSelected()) {
+            dias.add(Dias.LUNES);
+        }
+        if (jCheckBoxMartes.isSelected()) {
+            dias.add(Dias.MARTES);
+        }
+        if (jCheckBoxMiercoles.isSelected()) {
+            dias.add(Dias.MIERCOLES);
+        }
+        if (jCheckBoxJueves.isSelected()) {
+            dias.add(Dias.JUEVES);
+        }
+        if (jCheckBoxViernes.isSelected()) {
+            dias.add(Dias.VIERNES);
+        }
+        if (jCheckBoxSabado.isSelected()) {
+            dias.add(Dias.SABADO);
+        }
+
+        return dias;
+    }
+
+    private LocalTime construirHoras(String hora) {
+        String cadena = hora;
+        String[] partes = cadena.split(":");
+        String parte1 = partes[0];
+        String parte2 = partes[1];
+
+        LocalTime horaInicio = LocalTime.of(Integer.parseInt(parte1), Integer.parseInt(parte2));
+        return horaInicio;
+    }
+
+ 
+    private void aramarItinerario() {
+        ObjectId idGuia = new ObjectId("64647b7c99af833b487c674e");
+        
+        Itinerario itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), idGuia, 
+                construirListaDias(), construirHoras(obtenerHoraInicio()), construirHoras(obtenerHoraFin()), null);
+        registrar.registarItinerario(itinerarioRegistro);
+        txtFldNumMaxVisitantes.setText(String.valueOf(itinerarioRegistro.getMaxVisitantes()));
+        txtFldDuracionMin.setText(String.valueOf("10"));
+    }
+    
+    
+    private boolean espaciosVacios(){
+        if(txtFldHoraInicio.getText().isEmpty()|| txtFldHoraFin.getText().isEmpty()
+                || txtFldNombreItinerario.getText().isBlank()|| construirListaDias()!=null){
+            mostrarMensaje("El itinerario no tiene los datos completos.");
+             return true;
+        }
+        return false;
     }
 
     /**
@@ -353,12 +424,18 @@ public class FrmRegistro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Botón que se encarga de llamar al método que permite registar un itinerario.
-     * @param evt 
+     * Botón que se encarga de llamar al método que permite registar un
+     * itinerario.
+     *
+     * @param evt
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        obtenerHoraInicio();
+        if(espaciosVacios()==true){
+            
+        }else{
+       aramarItinerario();
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**

@@ -4,16 +4,63 @@
  */
 package org.itson.implementacion;
 
+import ObjNegocio.Dias;
+import ObjNegocio.Especie;
+import ObjNegocio.Itinerario;
+import java.util.List;
+import java.time.LocalTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.bson.types.ObjectId;
+import org.itson.fachada.AdministrarItinerariosFachada;
+import org.itson.fachada.IAdministrarItinerarios;
+import org.itson.fachada.excepciones.PersistenciaException;
+
 /**
  *
  * @author kim
  */
 public class RegistarItinerario {
 
-    //float longitud, int maxVisitantes, int numEspecies, String nombre, ObjectId id, 
-    //ObjectId guia, List<Dias> dias, LocalTime horaInicio, LocalTime horaFin, List<Especie> especies
+        /**
+     * Método para mostrar un mensaje en pantalla, recibe una cadena de texto la
+     * cual es la que se desea mostrar en el mensaje informativo.
+     */
+    private void mostrarMensaje(String msj) {
+        JOptionPane.showMessageDialog(null, msj, "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
     
-    public void crearItinerario(){
+    IAdministrarItinerarios administrarItinerario;
+
+    public RegistarItinerario() {
         
+        try {
+            this.administrarItinerario = new AdministrarItinerariosFachada("ZOO");
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(RegistarItinerario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+  
+    public Itinerario crearItinerario(float longitud, int maxVisitantes, int numEspecies, String nombre, ObjectId guia, List<Dias> dias, LocalTime horaInicio, LocalTime horaFin, List<Especie> especies) {
+        try {
+            especies= administrarItinerario.recuperarDatosFormulario();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(RegistarItinerario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Itinerario itinerarioRegistro = new Itinerario(longitud, maxVisitantes, numEspecies, nombre, guia, dias, horaInicio, horaFin, especies);
+        if (itinerarioRegistro != null) {
+            return itinerarioRegistro;
+        }
+        return null;
+
+    }
+    
+    public void registarItinerario(Itinerario itinerario){
+        try {
+            administrarItinerario.registrarItinerario(itinerario);
+        } catch (PersistenciaException ex) {
+           mostrarMensaje(ex.getMessage());
+        }
     }
 }

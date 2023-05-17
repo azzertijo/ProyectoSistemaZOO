@@ -11,6 +11,25 @@
             <artifactId>AbsoluteLayout</artifactId>
             <version>RELEASE125</version>
         </dependency>
+   
+        <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver -->
+<dependency>
+    <groupId>org.mongodb</groupId>
+    <artifactId>mongodb-driver</artifactId>
+    <version>3.10.2</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.mongodb/bson -->
+<dependency>
+    <groupId>org.mongodb</groupId>
+    <artifactId>bson</artifactId>
+    <version>3.10.2</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-core -->
+<dependency>
+    <groupId>org.mongodb</groupId>
+    <artifactId>mongodb-driver-core</artifactId>
+    <version>3.10.2</version>
+</dependency>
         <dependency>
             <groupId>1</groupId>
             <artifactId>1.0</artifactId>
@@ -22,6 +41,11 @@
             <artifactId>1.1</artifactId>
             <version>ObjetoNegocio</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>1</groupId>
+            <artifactId>1.3</artifactId>
+            <version>Persistencia</version>
         </dependency>
     </dependencies>
     <properties>
