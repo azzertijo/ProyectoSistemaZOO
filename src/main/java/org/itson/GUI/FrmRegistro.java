@@ -149,7 +149,7 @@ public class FrmRegistro extends javax.swing.JFrame {
 
     private boolean espaciosVacios() {
         if (txtFldHoraInicio.getText().isEmpty() || txtFldHoraFin.getText().isEmpty()
-                || txtFldNombreItinerario.getText().isBlank() || construirListaDias() == null) {
+                || txtFldNombreItinerario.getText().isBlank() || construirListaDias().isEmpty()) {
             mostrarMensaje("El itinerario no tiene los datos completos.");
             return true;
         }
