@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import org.bson.types.ObjectId;
+import org.itson.fachada.AdministrarItinerariosFachada;
+import org.itson.fachada.excepciones.PersistenciaException;
 import org.itson.implementacion.RegistarItinerario;
 import org.itson.implementacion.Validador;
 

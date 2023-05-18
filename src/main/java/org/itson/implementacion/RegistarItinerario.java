@@ -85,12 +85,13 @@ public class RegistarItinerario {
                 */
                if(espSeleccionadas.contains(especies.get(i).getNomEspanol())){
                    listaFinal.add(especies.get(i));
-                   especies.remove(i);
+                //   especies.remove(i);
                }
            }
         } catch (PersistenciaException ex) {
             mostrarMensaje(ex.getMessage());
         }
+         System.out.println(listaFinal);
         return listaFinal;
      }
 }
