@@ -24,7 +24,7 @@ import org.itson.fachada.excepciones.PersistenciaException;
  */
 public class RegistarItinerario {
 
-        /**
+    /**
      * Método para mostrar un mensaje en pantalla, recibe una cadena de texto la
      * cual es la que se desea mostrar en el mensaje informativo.
      */
