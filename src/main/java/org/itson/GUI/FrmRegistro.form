@@ -91,8 +91,8 @@
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="3" rowCount="14">
-                    <Column editable="true" title="Especies" type="java.lang.Object"/>
-                    <Column editable="true" title="Zonas" type="java.lang.Object"/>
+                    <Column editable="false" title="Especies" type="java.lang.Object"/>
+                    <Column editable="false" title="Zonas" type="java.lang.Object"/>
                     <Column editable="true" title="Seleccionado" type="java.lang.Boolean"/>
                   </Table>
                 </Property>

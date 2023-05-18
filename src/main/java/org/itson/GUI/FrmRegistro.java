@@ -284,9 +284,16 @@ public class FrmRegistro extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jTableRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -615,7 +622,9 @@ public class FrmRegistro extends javax.swing.JFrame {
 
     private void jTableRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableRegistroMouseClicked
         if (this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 2).equals(true)) {
+            
             this.listaEspecies.add((String) this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
+            
             System.out.println(this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
         }
     }//GEN-LAST:event_jTableRegistroMouseClicked

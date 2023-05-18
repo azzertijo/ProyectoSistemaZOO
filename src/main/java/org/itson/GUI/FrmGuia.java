@@ -49,12 +49,11 @@ public class FrmGuia extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         cbxGuias = new javax.swing.JComboBox<>();
         btnIniciarRegistro = new javax.swing.JToggleButton();
+        btnBuscarItin = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Seleccionar guía");
-        setMaximumSize(new java.awt.Dimension(1040, 730));
         setMinimumSize(new java.awt.Dimension(1040, 730));
-        setPreferredSize(new java.awt.Dimension(1040, 730));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 0));
@@ -79,6 +78,16 @@ public class FrmGuia extends javax.swing.JFrame {
             }
         });
 
+        btnBuscarItin.setBackground(new java.awt.Color(0, 0, 0));
+        btnBuscarItin.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        btnBuscarItin.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscarItin.setText("Buscar Itinerario");
+        btnBuscarItin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarItinActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -92,7 +101,9 @@ public class FrmGuia extends javax.swing.JFrame {
                             .addComponent(cbxGuias, javax.swing.GroupLayout.PREFERRED_SIZE, 805, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(398, 398, 398)
-                        .addComponent(btnIniciarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBuscarItin, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnIniciarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(122, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -104,7 +115,9 @@ public class FrmGuia extends javax.swing.JFrame {
                 .addComponent(cbxGuias, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(182, 182, 182)
                 .addComponent(btnIniciarRegistro)
-                .addContainerGap(310, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscarItin)
+                .addContainerGap(265, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -136,6 +149,12 @@ public class FrmGuia extends javax.swing.JFrame {
         this.dispose();
         registro.setVisible(true);
     }//GEN-LAST:event_btnIniciarRegistroActionPerformed
+
+    private void btnBuscarItinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarItinActionPerformed
+        FrmBuscar registro = new FrmBuscar(guiaSeleccionado);
+        this.dispose();
+        registro.setVisible(true);
+    }//GEN-LAST:event_btnBuscarItinActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,6 +192,7 @@ public class FrmGuia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnBuscarItin;
     private javax.swing.JToggleButton btnIniciarRegistro;
     private javax.swing.JComboBox<Guia> cbxGuias;
     private javax.swing.JLabel jLabel1;

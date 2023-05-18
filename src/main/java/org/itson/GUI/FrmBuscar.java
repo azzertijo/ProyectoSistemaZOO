@@ -3,6 +3,7 @@
  */
 package org.itson.GUI;
 
+import ObjNegocio.Guia;
 import ObjNegocio.Itinerario;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -26,6 +27,7 @@ public class FrmBuscar extends javax.swing.JFrame {
      */
     private Validador validador = new Validador();
     private DefaultTableModel model;
+    private Guia guia;
 
     /**
      * Creates new form FrmBuscar
@@ -36,6 +38,13 @@ public class FrmBuscar extends javax.swing.JFrame {
         cargarItinerarios();
     }
 
+    public FrmBuscar(Guia guia){
+        initComponents();
+        model = (DefaultTableModel) this.jTable1.getModel();
+        this.guia=guia;
+        cargarItinerarios();
+        this.lblNombreGuia.setText(guia.getNombre()+" "+guia.getApellidoPat());
+    }
     /**
      * Método para mostrar un mensaje en pantalla, recibe una cadena de texto la
      * cual es la que se desea mostrar en el mensaje informativo.
@@ -92,6 +101,7 @@ public class FrmBuscar extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnItinerario = new javax.swing.JToggleButton();
+        btnRegistro1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Buscar Itinerario");
@@ -170,7 +180,15 @@ public class FrmBuscar extends javax.swing.JFrame {
             new String [] {
                 "Nombre", "Días", "Horario"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         btnItinerario.setBackground(new java.awt.Color(255, 255, 255));
@@ -183,6 +201,16 @@ public class FrmBuscar extends javax.swing.JFrame {
             }
         });
 
+        btnRegistro1.setBackground(new java.awt.Color(255, 255, 255));
+        btnRegistro1.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        btnRegistro1.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegistro1.setText("Vovler a guías");
+        btnRegistro1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistro1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -190,22 +218,24 @@ public class FrmBuscar extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFieldNombreItinerario, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(628, 628, 628)
-                                .addComponent(btnItinerario, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(53, Short.MAX_VALUE))
+                                .addComponent(txtFieldNombreItinerario, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(53, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnItinerario, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRegistro1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +251,8 @@ public class FrmBuscar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 319, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistro)
-                    .addComponent(btnItinerario))
+                    .addComponent(btnItinerario)
+                    .addComponent(btnRegistro1))
                 .addGap(58, 58, 58))
         );
 
@@ -253,7 +284,7 @@ public class FrmBuscar extends javax.swing.JFrame {
     }
 
     private void cargarItinerarios() {
-        List<Itinerario> lista = this.cargarItinerarios.cargarItinerariosGuia("64647b7c99af833b487c674e");
+        List<Itinerario> lista = this.cargarItinerarios.cargarItinerariosGuia(this.guia.getId().toStringMongod());
 
         model.setRowCount(lista.size());
         for (int i = 0; i < lista.size(); i++) {
@@ -284,6 +315,11 @@ public class FrmBuscar extends javax.swing.JFrame {
         IMostrarItinerarios mostrarItin=new MostrarItineariosFachada();
         mostrarItin.reporteItinerario(buscar());
     }//GEN-LAST:event_btnItinerarioActionPerformed
+
+    private void btnRegistro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistro1ActionPerformed
+        new FrmGuia().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegistro1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -324,6 +360,7 @@ public class FrmBuscar extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnBuscar;
     private javax.swing.JToggleButton btnItinerario;
     private javax.swing.JButton btnRegistro;
+    private javax.swing.JButton btnRegistro1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
