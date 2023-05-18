@@ -74,16 +74,23 @@ public class RegistarItinerario {
     
      public List<Especie> cargarTablaRegistro(List<String> espSeleccionadas){
           List<Especie> especies = new ArrayList<Especie>();
+          List<Especie> listaFinal=new ArrayList<Especie>();
         try {
            especies= administrarItinerario.recuperarDatosFormulario();
            for(int i=0; i<especies.size();i++){
+               /*
                if(!(espSeleccionadas.contains(especies.get(i).getNomEspanol()))){
+                   especies.remove(i);
+               }
+                */
+               if(espSeleccionadas.contains(especies.get(i).getNomEspanol())){
+                   listaFinal.add(especies.get(i));
                    especies.remove(i);
                }
            }
         } catch (PersistenciaException ex) {
             mostrarMensaje(ex.getMessage());
         }
-        return especies;
+        return listaFinal;
      }
 }
