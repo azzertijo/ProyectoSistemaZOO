@@ -3,7 +3,12 @@
  */
 package org.itson.GUI;
 
+import ObjNegocio.Itinerario;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import org.itson.implementacion.CargarItinerarios;
 import org.itson.implementacion.Validador;
 
 /**
@@ -13,6 +18,7 @@ import org.itson.implementacion.Validador;
  */
 public class FrmBuscar extends javax.swing.JFrame {
 
+    CargarItinerarios cargarItinerarios=new CargarItinerarios();
     /**
      * Atributo que sirve para validar los valores ingresados por el usario,
      * para verificar que su formato sea correcto.
@@ -24,6 +30,7 @@ public class FrmBuscar extends javax.swing.JFrame {
      */
     public FrmBuscar() {
         initComponents();
+        cargarItinerarios();
     }
 
     /**
@@ -204,6 +211,17 @@ public class FrmBuscar extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void cargarItinerarios(){
+        List<Itinerario> lista=this.cargarItinerarios.cargarItinerariosGuia("64647b7c99af833b487c674e");
+        
+        DefaultTableModel model=(DefaultTableModel)this.jTable1.getModel();
+        model.setRowCount(lista.size());
+        for(int i=0; i<lista.size();i++){
+            model.setValueAt(lista.get(i).getNombre(), i, 0);
+            model.setValueAt(lista.get(i).getDias(), i, 1);
+            model.setValueAt(lista.get(i).getHoraInicio()+" - "+lista.get(i).getHoraFin(), i, 2);
+        }
+    }
     /**
      * Botón que redirige al frame de registro para que el guía pueda registrar
      * un nuevo itinerario.
