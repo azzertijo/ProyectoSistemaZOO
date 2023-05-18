@@ -18,18 +18,20 @@ import org.itson.implementacion.Validador;
  */
 public class FrmBuscar extends javax.swing.JFrame {
 
-    CargarItinerarios cargarItinerarios=new CargarItinerarios();
+    CargarItinerarios cargarItinerarios = new CargarItinerarios();
     /**
      * Atributo que sirve para validar los valores ingresados por el usario,
      * para verificar que su formato sea correcto.
      */
     private Validador validador = new Validador();
+    private DefaultTableModel model;
 
     /**
      * Creates new form FrmBuscar
      */
     public FrmBuscar() {
         initComponents();
+        model = (DefaultTableModel) this.jTable1.getModel();
         cargarItinerarios();
     }
 
@@ -57,6 +59,11 @@ public class FrmBuscar extends javax.swing.JFrame {
             mostrarMensaje(ex.getMessage());
         }
         return null;
+    }
+
+    private Itinerario buscar() {
+        Itinerario buscado = cargarItinerarios.filtro(obtenerNombreItinerario());
+        return buscado;
     }
 
     /**
@@ -208,20 +215,28 @@ public class FrmBuscar extends javax.swing.JFrame {
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-
+        System.out.println(buscar());
+        model.setRowCount(0);
+        cargarBusqueda(buscar());
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void cargarItinerarios(){
-        List<Itinerario> lista=this.cargarItinerarios.cargarItinerariosGuia("64647b7c99af833b487c674e");
-        
-        DefaultTableModel model=(DefaultTableModel)this.jTable1.getModel();
+    private void cargarBusqueda(Itinerario itinerario) {
+        model.setValueAt(itinerario.getNombre(), 0, 0);
+        model.setValueAt(itinerario.getDias(), 0, 1);
+        model.setValueAt(itinerario.getHoraInicio() + " - " + itinerario.getHoraFin(), 0, 2);
+    }
+
+    private void cargarItinerarios() {
+        List<Itinerario> lista = this.cargarItinerarios.cargarItinerariosGuia("64647b7c99af833b487c674e");
+
         model.setRowCount(lista.size());
-        for(int i=0; i<lista.size();i++){
+        for (int i = 0; i < lista.size(); i++) {
             model.setValueAt(lista.get(i).getNombre(), i, 0);
             model.setValueAt(lista.get(i).getDias(), i, 1);
-            model.setValueAt(lista.get(i).getHoraInicio()+" - "+lista.get(i).getHoraFin(), i, 2);
+            model.setValueAt(lista.get(i).getHoraInicio() + " - " + lista.get(i).getHoraFin(), i, 2);
         }
     }
+
     /**
      * Botón que redirige al frame de registro para que el guía pueda registrar
      * un nuevo itinerario.

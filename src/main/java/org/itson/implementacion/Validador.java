@@ -35,12 +35,7 @@ public class Validador {
         }
     }
 
-    
-    public int duración(int minutosInicio, int minutosFinal){
 
-        //Duración de el recorrido(itinerario), si las horas son iguales  o la hora final está antes que la de inicio se devuelve un num <=0
-        return minutosFinal-minutosInicio;
-    }
     
     /**
      * Método que valida si el usuario ingreso bien el nombre de un itinerario

@@ -36,7 +36,8 @@ public class FrmRegistro extends javax.swing.JFrame {
      */
     private Validador validador = new Validador();
     RegistarItinerario registrar = new RegistarItinerario();
-    private List<String> listaEspecies=new ArrayList<String>();;
+    private List<String> listaEspecies = new ArrayList<String>();
+    Itinerario itinerarioRegistro;
 
     private void cargarEspecies() {
         List<Especie> lista = registrar.cargarTablaRegistroCompleto();
@@ -53,7 +54,7 @@ public class FrmRegistro extends javax.swing.JFrame {
      */
     public FrmRegistro() {
         initComponents();
-        jLabel1.setIcon(new javax.swing.ImageIcon("src\\main\\java\\org\\itson\\img\\mapaZoo.jpg"));
+        imagenMapa.setIcon(new javax.swing.ImageIcon("src\\main\\java\\org\\itson\\img\\mapa.jpg"));
         cargarEspecies();
         txtFldNumMaxVisitantes.setEditable(false);
         txtFldDuracionMin.setEditable(false);
@@ -65,41 +66,6 @@ public class FrmRegistro extends javax.swing.JFrame {
      */
     private void mostrarMensaje(String msj) {
         JOptionPane.showMessageDialog(null, msj, "Información", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    /**
-     * Método para obtener la hora de inicio que ingresa el guía para validarla,
-     * si el formato es correcto la regresa, de lo contrario regresa null.
-     *
-     * @return hora de inicio del itinerario.
-     */
-    private String obtenerHoraInicio() {
-        String hora = txtFldHoraInicio.getText();
-        try {
-            validador.validaHora(hora);
-            return hora;
-        } catch (Exception ex) {
-            mostrarMensaje(ex.getMessage());
-        }
-        return null;
-    }
-
-    /**
-     * Método para obtener la hora de fin que ingresa el guía para validarla, si
-     * el formato es correcto la regresa, de lo contrario regresa null.
-     *
-     * @return hora de fin del itinerario.
-     */
-    private String obtenerHoraFin() {
-        String hora = txtFldMinutosFin.getText();
-        try {
-            validador.validaHora(hora);
-            return hora;
-        } catch (Exception ex) {
-            mostrarMensaje(ex.getMessage());
-        }
-        return null;
-        //12:50
     }
 
     /**
@@ -149,34 +115,63 @@ public class FrmRegistro extends javax.swing.JFrame {
     }
 
     private LocalTime construirHoras(String hora, String minuto) {
-       /*
+        /*
 
         String cadena = hora;
         String[] partes = cadena.split(":");
         String parte1 = partes[0];
         String parte2 = partes[1];
-        */
+         */
 
         LocalTime horaInicio = LocalTime.of(Integer.parseInt(hora), Integer.parseInt(minuto));
         System.out.println(horaInicio);
         return horaInicio;
     }
 
+    private int duracionItinerario() {
+        //horas
+        String horaInicio = this.txtFldHoraInicio.getText();
+        int horaInicioEntero = Integer.parseInt(horaInicio);
+        String horaFin = this.txtFldHoraFin.getText();
+        int horaFinEntero = Integer.parseInt(horaFin);
+        //minutos
+        String minutosInicio = this.txtFldMinutosInicio.getText();
+        int minutosInicioEntero = Integer.parseInt(minutosInicio);
+        String minutosFin = this.txtFldMinutosFin.getText();
+        int minutosFinEntero = Integer.parseInt(minutosFin);
+
+        //pasamos horas a min
+        horaInicioEntero = horaInicioEntero * 60;
+        horaFinEntero = horaFinEntero * 60;
+
+        //sumamos minutos a las horas
+        horaInicioEntero += minutosInicioEntero;
+        horaFinEntero += minutosFinEntero;
+
+        //sumar
+        int duracion = horaFinEntero - horaInicioEntero;
+        return duracion;
+    }
+
     private void aramarItinerario() {
         ObjectId idGuia = new ObjectId("64647b7c99af833b487c674e");
-
+        if (duracionItinerario() <= 0) {
+            mostrarMensaje("Horario incorrecto.");
+            return;
+        } else {
+        txtFldDuracionMin.setText(String.valueOf(duracionItinerario()));
         //aqui utilizar el metodo construirhorafin e inicio falta implementarlo
-        
-        Itinerario itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), idGuia,
-                construirListaDias(), construirHoras(this.txtFldHoraInicio.getText(),txtFldMinutosInicio.getText()), construirHoras(this.txtFldHoraFin.getText(),txtFldMinutosFin.getText()), this.listaEspecies);
+        itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), idGuia,
+                construirListaDias(), construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosInicio.getText()), construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosFin.getText()), this.listaEspecies);
         registrar.registarItinerario(itinerarioRegistro);
         txtFldNumMaxVisitantes.setText(String.valueOf(itinerarioRegistro.getMaxVisitantes()));
-        txtFldDuracionMin.setText(String.valueOf("10"));
+        }
     }
 
     private boolean espaciosVacios() {
-        if (txtFldHoraInicio.getText().isEmpty() || txtFldMinutosFin.getText().isEmpty()
-                || txtFldNombreItinerario.getText().isBlank() || construirListaDias().isEmpty()) {
+        if (txtFldHoraFin.getText().isEmpty() || txtFldMinutosFin.getText().isEmpty()
+                || txtFldNombreItinerario.getText().isBlank() || construirListaDias().isEmpty()||
+                this.listaEspecies.isEmpty()) {
             mostrarMensaje("El itinerario no tiene los datos completos.");
             return true;
         }
@@ -216,7 +211,6 @@ public class FrmRegistro extends javax.swing.JFrame {
         jLblTituloDias = new javax.swing.JLabel();
         jLblTituloDias2 = new javax.swing.JLabel();
         jLblTituloHorario1 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -224,10 +218,20 @@ public class FrmRegistro extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         txtFldMinutosInicio = new java.awt.TextField();
-        txtFldHoraInicio = new java.awt.TextField();
         txtFldHoraFin = new java.awt.TextField();
         jLblFormato2 = new javax.swing.JLabel();
         jLblHora = new javax.swing.JLabel();
+        txtFldMinutosFin1 = new java.awt.TextField();
+        txtFldHoraInicio = new java.awt.TextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        imagenMapa = new javax.swing.JLabel();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -368,7 +372,6 @@ public class FrmRegistro extends javax.swing.JFrame {
         jLblTituloHorario1.setForeground(new java.awt.Color(255, 255, 255));
         jLblTituloHorario1.setText("Especificaciones del recorrido:");
         pnlRegistro.add(jLblTituloHorario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 420, 270, 30));
-        pnlRegistro.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 50, 420, 330));
 
         jPanel1.setBackground(new java.awt.Color(103, 142, 25));
 
@@ -454,26 +457,9 @@ public class FrmRegistro extends javax.swing.JFrame {
         });
         pnlRegistro.add(txtFldMinutosInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 660, 60, 30));
 
-        txtFldHoraInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldHoraInicioActionPerformed(evt);
-            }
-        });
-        txtFldHoraInicio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFldHoraInicioKeyTyped(evt);
-            }
-        });
-        pnlRegistro.add(txtFldHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 660, 60, 30));
-
-        txtFldHoraFin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldHoraFinActionPerformed(evt);
-            }
-        });
         txtFldHoraFin.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtFldHoraFinKeyPressed(evt);
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFldHoraFinKeyTyped(evt);
             }
         });
         pnlRegistro.add(txtFldHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 700, 60, 30));
@@ -488,6 +474,66 @@ public class FrmRegistro extends javax.swing.JFrame {
         jLblHora.setText("Hora");
         pnlRegistro.add(jLblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 640, -1, 20));
 
+        txtFldMinutosFin1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFldMinutosFin1KeyTyped(evt);
+            }
+        });
+        pnlRegistro.add(txtFldMinutosFin1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 700, 60, 30));
+
+        txtFldHoraInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldHoraInicioActionPerformed(evt);
+            }
+        });
+        txtFldHoraInicio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFldHoraInicioKeyTyped(evt);
+            }
+        });
+        pnlRegistro.add(txtFldHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 660, 60, 30));
+
+        jLabel1.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel1.setText("G");
+        pnlRegistro.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 250, 20, 20));
+
+        jLabel2.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel2.setText("A");
+        pnlRegistro.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 80, 20, 20));
+
+        jLabel3.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel3.setText("C");
+        pnlRegistro.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 80, 20, 20));
+
+        jLabel4.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel4.setText("A");
+        pnlRegistro.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 80, 20, 20));
+
+        jLabel6.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel6.setText("B");
+        pnlRegistro.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, 20, 20));
+
+        jLabel7.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel7.setText("D");
+        pnlRegistro.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 80, 20, 20));
+
+        jLabel8.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel8.setText("E");
+        pnlRegistro.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 140, 20, 20));
+
+        jLabel9.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel9.setText("F");
+        pnlRegistro.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 180, 20, 20));
+        pnlRegistro.add(imagenMapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 20, 450, 390));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -500,7 +546,7 @@ public class FrmRegistro extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 902, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("JRegistro");
@@ -524,10 +570,6 @@ public class FrmRegistro extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    private void txtFldHoraInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldHoraInicioActionPerformed
-
     private void txtFldMinutosInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosInicioKeyTyped
         validador.validarHorario(evt, this.txtFldMinutosInicio, 60);
     }//GEN-LAST:event_txtFldMinutosInicioKeyTyped
@@ -537,26 +579,30 @@ public class FrmRegistro extends javax.swing.JFrame {
         validador.validarHorario(evt, this.txtFldMinutosFin, 60);
     }//GEN-LAST:event_txtFldMinutosFinKeyTyped
 
-    private void txtFldHoraInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldHoraInicioKeyTyped
-        // TODO add your handling code here:
-        validador.validarHorario(evt, this.txtFldHoraInicio, 24);
-    }//GEN-LAST:event_txtFldHoraInicioKeyTyped
-
-    private void txtFldHoraFinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldHoraFinKeyPressed
+    private void txtFldHoraFinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldHoraFinKeyTyped
         // TODO add your handling code here:
         validador.validarHorario(evt, this.txtFldHoraFin, 24);
-    }//GEN-LAST:event_txtFldHoraFinKeyPressed
+    }//GEN-LAST:event_txtFldHoraFinKeyTyped
 
     private void jTableRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableRegistroMouseClicked
-        if(this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 2).equals(true)){
+        if (this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 2).equals(true)) {
             this.listaEspecies.add((String) this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
             System.out.println(this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
         }
     }//GEN-LAST:event_jTableRegistroMouseClicked
 
-    private void txtFldHoraFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraFinActionPerformed
+    private void txtFldMinutosFin1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosFin1KeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldHoraFinActionPerformed
+    }//GEN-LAST:event_txtFldMinutosFin1KeyTyped
+
+    private void txtFldHoraInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldHoraInicioActionPerformed
+
+    private void txtFldHoraInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldHoraInicioKeyTyped
+        // TODO add your handling code here:
+        validador.validarHorario(evt, this.txtFldHoraInicio, 24);
+    }//GEN-LAST:event_txtFldHoraInicioKeyTyped
 
     /**
      * @param args the command line arguments
@@ -596,6 +642,7 @@ public class FrmRegistro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JLabel imagenMapa;
     private javax.swing.JCheckBox jCheckBoxDomingo;
     private javax.swing.JCheckBox jCheckBoxJueves;
     private javax.swing.JCheckBox jCheckBoxLunes;
@@ -605,6 +652,13 @@ public class FrmRegistro extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxSabado;
     private javax.swing.JCheckBox jCheckBoxViernes;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLblFormato1;
     private javax.swing.JLabel jLblFormato2;
     private javax.swing.JLabel jLblHora;
@@ -627,6 +681,7 @@ public class FrmRegistro extends javax.swing.JFrame {
     private java.awt.TextField txtFldHoraFin;
     private java.awt.TextField txtFldHoraInicio;
     private java.awt.TextField txtFldMinutosFin;
+    private java.awt.TextField txtFldMinutosFin1;
     private java.awt.TextField txtFldMinutosInicio;
     private java.awt.TextField txtFldNombreItinerario;
     private java.awt.TextField txtFldNumMaxVisitantes;
