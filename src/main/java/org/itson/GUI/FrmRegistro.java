@@ -6,9 +6,13 @@ package org.itson.GUI;
 import ObjNegocio.Dias;
 import ObjNegocio.Especie;
 import ObjNegocio.Itinerario;
+import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_DELETE;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
@@ -412,7 +416,24 @@ public class FrmRegistro extends javax.swing.JFrame {
         );
 
         pnlRegistro.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 580, 410, 10));
+
+        txtFldMinutosInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldMinutosInicioActionPerformed(evt);
+            }
+        });
+        txtFldMinutosInicio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFldMinutosInicioKeyTyped(evt);
+            }
+        });
         pnlRegistro.add(txtFldMinutosInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 660, 60, 30));
+
+        txtFldHoraInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldHoraInicioActionPerformed(evt);
+            }
+        });
         pnlRegistro.add(txtFldHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 660, 60, 30));
         pnlRegistro.add(txtFldHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 700, 60, 30));
 
@@ -463,6 +484,32 @@ public class FrmRegistro extends javax.swing.JFrame {
             aramarItinerario();
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void txtFldMinutosInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldMinutosInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldMinutosInicioActionPerformed
+
+    private void txtFldHoraInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldHoraInicioActionPerformed
+
+    private void txtFldMinutosInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosInicioKeyTyped
+        char num = evt.getKeyChar();
+        if (!Character.isDigit(num)) {
+            evt.consume();
+            return;
+        }
+        if (!this.txtFldMinutosInicio.getText().equalsIgnoreCase("")) {
+            if (this.txtFldMinutosInicio.getText().length() <= 1) {
+                String numeroCompleto=this.txtFldMinutosInicio.getText()+String.valueOf(num);
+                if (Integer.parseInt(numeroCompleto)>=60) {
+                    evt.consume();
+                }
+            } else {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_txtFldMinutosInicioKeyTyped
 
     /**
      * @param args the command line arguments
