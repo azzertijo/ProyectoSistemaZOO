@@ -128,14 +128,6 @@ public class FrmRegistro extends javax.swing.JFrame {
     }
 
     private LocalTime construirHoras(String hora, String minuto) {
-        /*
-
-        String cadena = hora;
-        String[] partes = cadena.split(":");
-        String parte1 = partes[0];
-        String parte2 = partes[1];
-         */
-
         LocalTime horaInicio = LocalTime.of(Integer.parseInt(hora), Integer.parseInt(minuto));
         System.out.println(horaInicio);
         return horaInicio;
@@ -169,6 +161,9 @@ public class FrmRegistro extends javax.swing.JFrame {
     private void aramarItinerario() {
         if (duracionItinerario() <= 0) {
             mostrarMensaje("Horario incorrecto.");
+            return;
+        } else if (duracionItinerario() > 90) {
+            mostrarMensaje("La duración excede el número de 90 minutos.");
             return;
         } else {
             txtFldDuracionMin.setText(String.valueOf(duracionItinerario()));
@@ -598,7 +593,7 @@ public class FrmRegistro extends javax.swing.JFrame {
      * @param evt
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        
+
         if (espaciosVacios() == true) {
 
         } else {
@@ -621,11 +616,15 @@ public class FrmRegistro extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFldHoraFinKeyTyped
 
     private void jTableRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableRegistroMouseClicked
-        if (this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 2).equals(true)) {
-            
-            this.listaEspecies.add((String) this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
-            
-            System.out.println(this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
+        try {
+            if (this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 2).equals(true)) {
+
+                this.listaEspecies.add((String) this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
+
+                System.out.println(this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
+            }
+        } catch (Exception e) {
+            evt.consume();
         }
     }//GEN-LAST:event_jTableRegistroMouseClicked
 
@@ -648,44 +647,11 @@ public class FrmRegistro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrar3ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-       new FrmGuia().setVisible(true);
+        new FrmGuia().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmRegistro().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
