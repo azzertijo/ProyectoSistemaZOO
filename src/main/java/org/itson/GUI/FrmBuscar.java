@@ -30,7 +30,8 @@ public class FrmBuscar extends javax.swing.JFrame {
     private Guia guia;
 
     /**
-     * Creates new form FrmBuscar
+     * Constructor que crea un frame buscar nuevo que contiene la tabla de
+     * itinerarios disponibles
      */
     public FrmBuscar() {
         initComponents();
@@ -38,13 +39,20 @@ public class FrmBuscar extends javax.swing.JFrame {
         cargarItinerarios();
     }
 
-    public FrmBuscar(Guia guia){
+    /**
+     * Constructor que crea un frame buscar que contiene un guía al que se le
+     * hará referencia del la sesion iniciada
+     *
+     * @param guia
+     */
+    public FrmBuscar(Guia guia) {
         initComponents();
         model = (DefaultTableModel) this.jTable1.getModel();
-        this.guia=guia;
+        this.guia = guia;
         cargarItinerarios();
-        this.lblNombreGuia.setText(guia.getNombre()+" "+guia.getApellidoPat());
+        this.lblNombreGuia.setText(guia.getNombre() + " " + guia.getApellidoPat());
     }
+
     /**
      * Método para mostrar un mensaje en pantalla, recibe una cadena de texto la
      * cual es la que se desea mostrar en el mensaje informativo.
@@ -71,6 +79,11 @@ public class FrmBuscar extends javax.swing.JFrame {
         return null;
     }
 
+    /**
+     * Método que permite buscar itinerario por nombre mediante un filtro
+     *
+     * @return itinerario buscado
+     */
     private Itinerario buscar() {
         Itinerario buscado = null;
         if (obtenerNombreItinerario() == null) {
@@ -266,7 +279,7 @@ public class FrmBuscar extends javax.swing.JFrame {
      * Botón que llama al método que se encarga de buscar un itinerario mediante
      * su nombre.
      *
-     * @param evt
+     * @param evt evento que desencadena la acción
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
@@ -276,6 +289,12 @@ public class FrmBuscar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    /**
+     * Método que permite cargar la busqueda del itinerario realizada en la
+     * tabla
+     *
+     * @param itinerario itinerario a mostrar
+     */
     private void cargarBusqueda(Itinerario itinerario) {
         model.setRowCount(1);
         model.setValueAt(itinerario.getNombre(), 0, 0);
@@ -283,6 +302,10 @@ public class FrmBuscar extends javax.swing.JFrame {
         model.setValueAt(itinerario.getHoraInicio() + " - " + itinerario.getHoraFin(), 0, 2);
     }
 
+    /**
+     * Método que permite cargar la tabla con la lista de itinerarios
+     * registrados en la base de datos
+     */
     private void cargarItinerarios() {
         List<Itinerario> lista = this.cargarItinerarios.cargarItinerariosGuia(this.guia.getId().toStringMongod());
 
@@ -298,7 +321,7 @@ public class FrmBuscar extends javax.swing.JFrame {
      * Botón que redirige al frame de registro para que el guía pueda registrar
      * un nuevo itinerario.
      *
-     * @param evt
+     * @param evt evento que desencadena la acción
      */
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
         // TODO add your handling code here:
@@ -307,15 +330,27 @@ public class FrmBuscar extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegistroActionPerformed
 
+    /**
+     * Botón que valida el espacio de nombre no esté hacío para hacer la
+     * busqueda mediante ese nombre
+     *
+     * @param evt evento que desencadena la acción
+     */
     private void btnItinerarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItinerarioActionPerformed
-        if(this.txtFieldNombreItinerario.getText().isBlank()){
+        if (this.txtFieldNombreItinerario.getText().isBlank()) {
             mostrarMensaje("No hay un nombre a buscar");
             return;
         }
-        IMostrarItinerarios mostrarItin=new MostrarItineariosFachada();
+        IMostrarItinerarios mostrarItin = new MostrarItineariosFachada();
         mostrarItin.reporteItinerario(buscar());
     }//GEN-LAST:event_btnItinerarioActionPerformed
 
+    /**
+     * Botón que te redirige a la ventana de registro para registrar itinerarios
+     * nuevos
+     *
+     * @param evt evento que desencadena la acción
+     */
     private void btnRegistro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistro1ActionPerformed
         new FrmGuia().setVisible(true);
         this.dispose();

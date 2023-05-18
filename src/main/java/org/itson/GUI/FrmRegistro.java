@@ -43,6 +43,9 @@ public class FrmRegistro extends javax.swing.JFrame {
     private Itinerario itinerarioRegistro;
     private Guia guiaSeleccionado;
 
+    /**
+     * Constructor que crea un frame de registro nuevo
+     */
     public FrmRegistro() {
         initComponents();
         imagenMapa.setIcon(new javax.swing.ImageIcon("src\\main\\java\\org\\itson\\img\\mapa.jpg"));
@@ -51,6 +54,9 @@ public class FrmRegistro extends javax.swing.JFrame {
         txtFldDuracionMin.setEditable(false);
     }
 
+    /**
+     * Método que carga la lista de especies en la tabla jTableRegistro
+     */
     private void cargarEspecies() {
         List<Especie> lista = registrar.cargarTablaRegistroCompleto();
         DefaultTableModel model = (DefaultTableModel) jTableRegistro.getModel();
@@ -62,7 +68,7 @@ public class FrmRegistro extends javax.swing.JFrame {
     }
 
     /**
-     * Creates new form FrmRegistro
+     * Constructor que crea un frame de registro nuevo con los datos cargados del guía
      */
     public FrmRegistro(Guia guia) {
         initComponents();
@@ -99,7 +105,11 @@ public class FrmRegistro extends javax.swing.JFrame {
         return null;
     }
 
-    //(longitud, maxVisitantes, numEspecies, nombre, id, guia, dias, horaInicio, horaFin, especies);
+    /**
+     * Método que permite construir una lista de dias que será insertada en el itinerario para saber
+     * que días estara disponible el mismo
+     * @return lista de dias de disponibilidad
+     */
     private List<Dias> construirListaDias() {
         List<Dias> dias = new ArrayList();
         if (jCheckBoxDomingo.isSelected()) {
@@ -127,12 +137,22 @@ public class FrmRegistro extends javax.swing.JFrame {
         return dias;
     }
 
+    /**
+     * Método que permite construir las horas mediante la hora y minuto recibidos en el parametro
+     * @param hora hora en formato 24 horas
+     * @param minuto mintuos de la hora
+     * @return hora en formato LocalTime
+     */
     private LocalTime construirHoras(String hora, String minuto) {
         LocalTime horaInicio = LocalTime.of(Integer.parseInt(hora), Integer.parseInt(minuto));
         System.out.println(horaInicio);
         return horaInicio;
     }
 
+    /**
+     * Método que calcula la duracion total del itinerario
+     * @return duracion del recorrido en minutos
+     */
     private int duracionItinerario() {
         //horas
         String horaInicio = this.txtFldHoraInicio.getText();
@@ -158,6 +178,9 @@ public class FrmRegistro extends javax.swing.JFrame {
         return duracion;
     }
 
+    /**
+     * Método que permite armar el itinerario con los datos obtenidos y lo registra
+     */
     private void aramarItinerario() {
         if (duracionItinerario() <= 0) {
             mostrarMensaje("Horario incorrecto.");
@@ -175,6 +198,10 @@ public class FrmRegistro extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Método que valida la existencia de espacios vacios en los text fields
+     * @return regresa true si hay algun text field vacío, falso si no
+     */
     private boolean espaciosVacios() {
         if (txtFldHoraFin.getText().isEmpty() || txtFldMinutosFin.getText().isEmpty()
                 || txtFldNombreItinerario.getText().isBlank() || construirListaDias().isEmpty()
@@ -501,11 +528,6 @@ public class FrmRegistro extends javax.swing.JFrame {
         });
         pnlRegistro.add(txtFldMinutosFin1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 700, 60, 30));
 
-        txtFldHoraInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldHoraInicioActionPerformed(evt);
-            }
-        });
         txtFldHoraInicio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFldHoraInicioKeyTyped(evt);
@@ -590,7 +612,7 @@ public class FrmRegistro extends javax.swing.JFrame {
      * Botón que se encarga de llamar al método que permite registar un
      * itinerario.
      *
-     * @param evt
+     * @param evt evento que desencadena la acción
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
 
@@ -601,20 +623,36 @@ public class FrmRegistro extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    /**
+     * Acción que permite validar que los minutos no pasen de 59
+     * @param evt evento que desencadena la acción
+     */
     private void txtFldMinutosInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosInicioKeyTyped
         validador.validarHorario(evt, this.txtFldMinutosInicio, 60);
     }//GEN-LAST:event_txtFldMinutosInicioKeyTyped
 
+    /**
+     * Acción que permite validar que los minutos no pasen de 59
+     * @param evt evento que desencadena la acción
+     */
     private void txtFldMinutosFinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosFinKeyTyped
         // TODO add your handling code here:
         validador.validarHorario(evt, this.txtFldMinutosFin, 60);
     }//GEN-LAST:event_txtFldMinutosFinKeyTyped
 
+    /**
+     * Acción que valida que no se pueda escribir una hora mayor a 23 horas
+     * @param evt evento que desencadena la acción
+     */
     private void txtFldHoraFinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldHoraFinKeyTyped
         // TODO add your handling code here:
         validador.validarHorario(evt, this.txtFldHoraFin, 24);
     }//GEN-LAST:event_txtFldHoraFinKeyTyped
 
+    /**
+     * Método que permite obtener 
+     * @param evt evento que desencadena la acción
+     */
     private void jTableRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableRegistroMouseClicked
         try {
             if (this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 2).equals(true)) {
@@ -628,24 +666,36 @@ public class FrmRegistro extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableRegistroMouseClicked
 
+    /**
+     * Acción que no sabemos donde esta el txt field
+     * @param evt evento que desencadena la acción
+     */
     private void txtFldMinutosFin1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosFin1KeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFldMinutosFin1KeyTyped
 
-    private void txtFldHoraInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldHoraInicioActionPerformed
-
+    /**
+     * Acción que valida que no se pueda escribir una hora mayor a 23 horas
+     * @param evt evento que desencadena la acción
+     */
     private void txtFldHoraInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldHoraInicioKeyTyped
         // TODO add your handling code here:
         validador.validarHorario(evt, this.txtFldHoraInicio, 24);
     }//GEN-LAST:event_txtFldHoraInicioKeyTyped
 
+    /**
+     * Botón que permite actualizar la pantalla actual
+     * @param evt evento que desencadena la acción
+     */
     private void btnRegistrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar3ActionPerformed
         new FrmRegistro(this.guiaSeleccionado).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegistrar3ActionPerformed
 
+    /**
+     * Botón que permite regresar a la ventana de guia
+     * @param evt evento que desencadena la acción
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         new FrmGuia().setVisible(true);
         this.dispose();

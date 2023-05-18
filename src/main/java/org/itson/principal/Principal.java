@@ -7,12 +7,13 @@ package org.itson.principal;
 import org.itson.GUI.FrmGuia;
 
 /**
- *
- * @author kim
+ * Clase principal para que el proyecto se ejecute
+ * @author kim, marki, elmer, yorx
  */
 public class Principal {
 
     /**
+     * Método que ejecuta la ventana inicial del programa
      * @param args the command line arguments
      */
     public static void main(String[] args) {

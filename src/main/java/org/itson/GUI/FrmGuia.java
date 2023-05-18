@@ -10,8 +10,8 @@ import javax.swing.DefaultComboBoxModel;
 import org.itson.implementacion.SeleccionarGuia;
 
 /**
- *
- * @author kim
+ * Frame que permite visualizar todos los guías que hay en la base y seleccionar uno para las pruebas
+ * @author kim, marki, elmer, yorx
  */
 public class FrmGuia extends javax.swing.JFrame {
 
@@ -28,6 +28,9 @@ public class FrmGuia extends javax.swing.JFrame {
     private DefaultComboBoxModel<Guia> modeloComboBox = new DefaultComboBoxModel<Guia>();
     private Guia guiaSeleccionado;
 
+    /**
+     * Método que carga con los datos de los guías la combo box principal
+     */
     private void cargarComboBoxGuias() {
         List<Guia> guias = seleccionGuia.recuperarGuias();
         for (Guia guia : guias) {
@@ -138,11 +141,19 @@ public class FrmGuia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Acción que permite seleccionar el guía eligiendolo en la combo box
+     * @param evt evento que desencadena la acción
+     */
     private void cbxGuiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxGuiasActionPerformed
         // TODO add your handling code here:
         guiaSeleccionado = (Guia) cbxGuias.getSelectedItem();
     }//GEN-LAST:event_cbxGuiasActionPerformed
 
+    /**
+     * Botón que te redirige a la ventana de registro de itinerarios con los datos del guía seleccionados
+     * @param evt evento que desencadena la acción
+     */
     private void btnIniciarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarRegistroActionPerformed
         // TODO add your handling code here:
         FrmRegistro registro = new FrmRegistro(guiaSeleccionado);
@@ -150,6 +161,10 @@ public class FrmGuia extends javax.swing.JFrame {
         registro.setVisible(true);
     }//GEN-LAST:event_btnIniciarRegistroActionPerformed
 
+    /**
+     * Botón que te redirige a la ventana de busqueda de itinerarios con los datos del guía seleccionados
+     * @param evt evento que desencadena la acción
+     */
     private void btnBuscarItinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarItinActionPerformed
         FrmBuscar registro = new FrmBuscar(guiaSeleccionado);
         this.dispose();
