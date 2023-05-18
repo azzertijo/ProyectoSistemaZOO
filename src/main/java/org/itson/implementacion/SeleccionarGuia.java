@@ -60,4 +60,16 @@ public class SeleccionarGuia {
         }
         return guias;
     }
+    
+    /**
+     * Método que inserta objetos dummies en la base de datos
+     */
+    public void insertarDummies(){
+        try {
+            administrarItinerario.insertarDummies();
+        } catch (PersistenciaException ex) {
+            mostrarMensaje(ex.getMessage());
+        }
+        
+    }
 }

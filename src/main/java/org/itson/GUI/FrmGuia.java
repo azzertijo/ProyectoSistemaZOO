@@ -10,7 +10,9 @@ import javax.swing.DefaultComboBoxModel;
 import org.itson.implementacion.SeleccionarGuia;
 
 /**
- * Frame que permite visualizar todos los guías que hay en la base y seleccionar uno para las pruebas
+ * Frame que permite visualizar todos los guías que hay en la base y seleccionar
+ * uno para las pruebas
+ *
  * @author kim, marki, elmer, yorx
  */
 public class FrmGuia extends javax.swing.JFrame {
@@ -53,6 +55,7 @@ public class FrmGuia extends javax.swing.JFrame {
         cbxGuias = new javax.swing.JComboBox<>();
         btnIniciarRegistro = new javax.swing.JToggleButton();
         btnBuscarItin = new javax.swing.JToggleButton();
+        btnInsertar = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Seleccionar guía");
@@ -91,6 +94,16 @@ public class FrmGuia extends javax.swing.JFrame {
             }
         });
 
+        btnInsertar.setBackground(new java.awt.Color(0, 0, 0));
+        btnInsertar.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        btnInsertar.setForeground(new java.awt.Color(255, 255, 255));
+        btnInsertar.setText("Insertar dummies");
+        btnInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -106,7 +119,8 @@ public class FrmGuia extends javax.swing.JFrame {
                         .addGap(398, 398, 398)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnBuscarItin, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnIniciarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnIniciarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(122, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -118,9 +132,11 @@ public class FrmGuia extends javax.swing.JFrame {
                 .addComponent(cbxGuias, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(182, 182, 182)
                 .addComponent(btnIniciarRegistro)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnBuscarItin)
-                .addContainerGap(265, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnInsertar)
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,6 +159,7 @@ public class FrmGuia extends javax.swing.JFrame {
 
     /**
      * Acción que permite seleccionar el guía eligiendolo en la combo box
+     *
      * @param evt evento que desencadena la acción
      */
     private void cbxGuiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxGuiasActionPerformed
@@ -151,7 +168,9 @@ public class FrmGuia extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxGuiasActionPerformed
 
     /**
-     * Botón que te redirige a la ventana de registro de itinerarios con los datos del guía seleccionados
+     * Botón que te redirige a la ventana de registro de itinerarios con los
+     * datos del guía seleccionados
+     *
      * @param evt evento que desencadena la acción
      */
     private void btnIniciarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarRegistroActionPerformed
@@ -162,7 +181,9 @@ public class FrmGuia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarRegistroActionPerformed
 
     /**
-     * Botón que te redirige a la ventana de busqueda de itinerarios con los datos del guía seleccionados
+     * Botón que te redirige a la ventana de busqueda de itinerarios con los
+     * datos del guía seleccionados
+     *
      * @param evt evento que desencadena la acción
      */
     private void btnBuscarItinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarItinActionPerformed
@@ -171,9 +192,22 @@ public class FrmGuia extends javax.swing.JFrame {
         registro.setVisible(true);
     }//GEN-LAST:event_btnBuscarItinActionPerformed
 
+    /**
+     * Botón que llama al método para insertar objetos en la base de datos
+     *
+     * @param evt
+     */
+    private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
+        // TODO add your handling code here:
+        seleccionGuia.insertarDummies();
+        new FrmGuia().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnInsertarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnBuscarItin;
     private javax.swing.JToggleButton btnIniciarRegistro;
+    private javax.swing.JToggleButton btnInsertar;
     private javax.swing.JComboBox<Guia> cbxGuias;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
