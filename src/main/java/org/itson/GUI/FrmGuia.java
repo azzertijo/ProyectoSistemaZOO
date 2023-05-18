@@ -4,6 +4,9 @@
  */
 package org.itson.GUI;
 
+import ObjNegocio.Guia;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import org.itson.implementacion.SeleccionarGuia;
 
 /**
@@ -17,9 +20,22 @@ public class FrmGuia extends javax.swing.JFrame {
      */
     public FrmGuia() {
         initComponents();
+        cargarComboBoxGuias();
+        guiaSeleccionado = (Guia) cbxGuias.getSelectedItem();
     }
 
-    SeleccionarGuia seleccionGuia = new SeleccionarGuia();
+    private SeleccionarGuia seleccionGuia = new SeleccionarGuia();
+    private DefaultComboBoxModel<Guia> modeloComboBox = new DefaultComboBoxModel<Guia>();
+    private Guia guiaSeleccionado;
+
+    private void cargarComboBoxGuias() {
+        List<Guia> guias = seleccionGuia.recuperarGuias();
+        for (Guia guia : guias) {
+            modeloComboBox.addElement(guia);
+        }
+        cbxGuias.setModel(modeloComboBox);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,6 +48,7 @@ public class FrmGuia extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cbxGuias = new javax.swing.JComboBox<>();
+        btnIniciarRegistro = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Seleccionar guía");
@@ -46,27 +63,48 @@ public class FrmGuia extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Seleccionar Guía:");
 
-        cbxGuias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxGuias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxGuiasActionPerformed(evt);
+            }
+        });
+
+        btnIniciarRegistro.setBackground(new java.awt.Color(0, 0, 0));
+        btnIniciarRegistro.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        btnIniciarRegistro.setForeground(new java.awt.Color(255, 255, 255));
+        btnIniciarRegistro.setText("Regitrar Itinerario");
+        btnIniciarRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarRegistroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbxGuias, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(313, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbxGuias, javax.swing.GroupLayout.PREFERRED_SIZE, 805, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(398, 398, 398)
+                        .addComponent(btnIniciarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cbxGuias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(557, Short.MAX_VALUE))
+                .addGap(137, 137, 137)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(cbxGuias, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(182, 182, 182)
+                .addComponent(btnIniciarRegistro)
+                .addContainerGap(310, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -77,15 +115,27 @@ public class FrmGuia extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbxGuiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxGuiasActionPerformed
+        // TODO add your handling code here:
+        guiaSeleccionado = (Guia) cbxGuias.getSelectedItem();
+    }//GEN-LAST:event_cbxGuiasActionPerformed
+
+    private void btnIniciarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarRegistroActionPerformed
+        // TODO add your handling code here:
+        FrmRegistro registro = new FrmRegistro(guiaSeleccionado);
+        this.dispose();
+        registro.setVisible(true);
+    }//GEN-LAST:event_btnIniciarRegistroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -123,7 +173,8 @@ public class FrmGuia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cbxGuias;
+    private javax.swing.JToggleButton btnIniciarRegistro;
+    private javax.swing.JComboBox<Guia> cbxGuias;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
