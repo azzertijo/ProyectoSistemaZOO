@@ -16,7 +16,9 @@ import org.itson.implementacion.SeleccionarGuia;
  * @author kim, marki, elmer, yorx
  */
 public class FrmGuia extends javax.swing.JFrame {
+    
 
+    
     /**
      * Creates new form FrmGuia
      */

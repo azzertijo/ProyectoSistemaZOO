@@ -138,18 +138,6 @@ public class FrmRegistro extends javax.swing.JFrame {
     }
 
     /**
-     * Método que permite construir las horas mediante la hora y minuto recibidos en el parametro
-     * @param hora hora en formato 24 horas
-     * @param minuto mintuos de la hora
-     * @return hora en formato LocalTime
-     */
-    private LocalTime construirHoras(String hora, String minuto) {
-        LocalTime horaInicio = LocalTime.of(Integer.parseInt(hora), Integer.parseInt(minuto));
-        System.out.println(horaInicio);
-        return horaInicio;
-    }
-
-    /**
      * Método que calcula la duracion total del itinerario
      * @return duracion del recorrido en minutos
      */
@@ -181,7 +169,7 @@ public class FrmRegistro extends javax.swing.JFrame {
     /**
      * Método que permite armar el itinerario con los datos obtenidos y lo registra
      */
-    private void aramarItinerario() {
+    private void armarItinerario() {
         if (duracionItinerario() <= 0) {
             mostrarMensaje("Horario incorrecto.");
             return;
@@ -192,7 +180,7 @@ public class FrmRegistro extends javax.swing.JFrame {
             txtFldDuracionMin.setText(String.valueOf(duracionItinerario()));
             //aqui utilizar el metodo construirhorafin e inicio falta implementarlo
             itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), guiaSeleccionado.getId(),
-                    construirListaDias(), construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosInicio.getText()), construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosFin.getText()), this.listaEspecies);
+                    construirListaDias(), registrar.construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosInicio.getText()), registrar.construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosFin.getText()), this.listaEspecies);
             registrar.registarItinerario(itinerarioRegistro);
             txtFldNumMaxVisitantes.setText(String.valueOf(itinerarioRegistro.getMaxVisitantes()));
         }
@@ -520,12 +508,6 @@ public class FrmRegistro extends javax.swing.JFrame {
         jLblHora.setForeground(new java.awt.Color(255, 255, 255));
         jLblHora.setText("Hora");
         pnlRegistro.add(jLblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 640, -1, 20));
-
-        txtFldMinutosFin1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFldMinutosFin1KeyTyped(evt);
-            }
-        });
         pnlRegistro.add(txtFldMinutosFin1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 700, 60, 30));
 
         txtFldHoraInicio.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -615,11 +597,9 @@ public class FrmRegistro extends javax.swing.JFrame {
      * @param evt evento que desencadena la acción
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-
-        if (espaciosVacios() == true) {
-
+       if (espaciosVacios() == true) {
         } else {
-            aramarItinerario();
+            armarItinerario();
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -665,14 +645,6 @@ public class FrmRegistro extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_jTableRegistroMouseClicked
-
-    /**
-     * Acción que no sabemos donde esta el txt field
-     * @param evt evento que desencadena la acción
-     */
-    private void txtFldMinutosFin1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosFin1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldMinutosFin1KeyTyped
 
     /**
      * Acción que valida que no se pueda escribir una hora mayor a 23 horas

@@ -134,4 +134,19 @@ public class RegistarItinerario {
         System.out.println(listaFinal);
         return listaFinal;
     }
+
+    /**
+     * Método que permite construir las horas mediante la hora y minuto
+     * recibidos en el parametro
+     *
+     * @param hora hora en formato 24 horas
+     * @param minuto mintuos de la hora
+     * @return hora en formato LocalTime
+     */
+    public LocalTime construirHoras(String hora, String minuto) {
+        LocalTime horaInicio = LocalTime.of(Integer.parseInt(hora), Integer.parseInt(minuto));
+        System.out.println(horaInicio);
+        return horaInicio;
+    }
+    
 }
