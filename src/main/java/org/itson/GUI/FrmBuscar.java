@@ -62,7 +62,12 @@ public class FrmBuscar extends javax.swing.JFrame {
     }
 
     private Itinerario buscar() {
-        Itinerario buscado = cargarItinerarios.filtro(obtenerNombreItinerario());
+        Itinerario buscado = null;
+        if (obtenerNombreItinerario() == null) {
+            cargarItinerarios();
+        } else {
+            buscado = cargarItinerarios.filtro(obtenerNombreItinerario());
+        }
         return buscado;
     }
 
@@ -215,13 +220,14 @@ public class FrmBuscar extends javax.swing.JFrame {
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        System.out.println(buscar());
         model.setRowCount(0);
-        cargarBusqueda(buscar());
+        if (buscar() != null) {
+            cargarBusqueda(buscar());
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void cargarBusqueda(Itinerario itinerario) {
-         model.setRowCount(1);
+        model.setRowCount(1);
         model.setValueAt(itinerario.getNombre(), 0, 0);
         model.setValueAt(itinerario.getDias(), 0, 1);
         model.setValueAt(itinerario.getHoraInicio() + " - " + itinerario.getHoraFin(), 0, 2);
