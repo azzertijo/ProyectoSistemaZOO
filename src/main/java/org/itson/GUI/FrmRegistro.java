@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import org.bson.types.ObjectId;
+import org.itson.fachada.AdministrarItinerariosFachada;
+import org.itson.fachada.excepciones.PersistenciaException;
 import org.itson.implementacion.RegistarItinerario;
 import org.itson.implementacion.Validador;
 
@@ -500,7 +502,7 @@ public class FrmRegistro extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 902, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("JRegistro");
