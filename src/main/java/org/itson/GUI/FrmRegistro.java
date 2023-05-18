@@ -5,6 +5,7 @@ package org.itson.GUI;
 
 import ObjNegocio.Dias;
 import ObjNegocio.Especie;
+import ObjNegocio.Guia;
 import ObjNegocio.Itinerario;
 import java.awt.TextField;
 import java.awt.event.KeyEvent;
@@ -37,9 +38,18 @@ public class FrmRegistro extends javax.swing.JFrame {
      * para verificar que su formato sea correcto.
      */
     private Validador validador = new Validador();
-    RegistarItinerario registrar = new RegistarItinerario();
+    private RegistarItinerario registrar = new RegistarItinerario();
     private List<String> listaEspecies = new ArrayList<String>();
-    Itinerario itinerarioRegistro;
+    private Itinerario itinerarioRegistro;
+    private Guia guiaSeleccionado;
+
+    public FrmRegistro() {
+        initComponents();
+        imagenMapa.setIcon(new javax.swing.ImageIcon("src\\main\\java\\org\\itson\\img\\mapa.jpg"));
+        cargarEspecies();
+        txtFldNumMaxVisitantes.setEditable(false);
+        txtFldDuracionMin.setEditable(false);
+    }
 
     private void cargarEspecies() {
         List<Especie> lista = registrar.cargarTablaRegistroCompleto();
@@ -54,8 +64,9 @@ public class FrmRegistro extends javax.swing.JFrame {
     /**
      * Creates new form FrmRegistro
      */
-    public FrmRegistro() {
+    public FrmRegistro(Guia guia) {
         initComponents();
+        guiaSeleccionado = guia;
         imagenMapa.setIcon(new javax.swing.ImageIcon("src\\main\\java\\org\\itson\\img\\mapa.jpg"));
         cargarEspecies();
         txtFldNumMaxVisitantes.setEditable(false);
@@ -156,24 +167,23 @@ public class FrmRegistro extends javax.swing.JFrame {
     }
 
     private void aramarItinerario() {
-        ObjectId idGuia = new ObjectId("64647b7c99af833b487c674e");
         if (duracionItinerario() <= 0) {
             mostrarMensaje("Horario incorrecto.");
             return;
         } else {
-        txtFldDuracionMin.setText(String.valueOf(duracionItinerario()));
-        //aqui utilizar el metodo construirhorafin e inicio falta implementarlo
-        itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), idGuia,
-                construirListaDias(), construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosInicio.getText()), construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosFin.getText()), this.listaEspecies);
-        registrar.registarItinerario(itinerarioRegistro);
-        txtFldNumMaxVisitantes.setText(String.valueOf(itinerarioRegistro.getMaxVisitantes()));
+            txtFldDuracionMin.setText(String.valueOf(duracionItinerario()));
+            //aqui utilizar el metodo construirhorafin e inicio falta implementarlo
+            itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), guiaSeleccionado.getId(),
+                    construirListaDias(), construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosInicio.getText()), construirHoras(this.txtFldHoraFin.getText(), txtFldMinutosFin.getText()), this.listaEspecies);
+            registrar.registarItinerario(itinerarioRegistro);
+            txtFldNumMaxVisitantes.setText(String.valueOf(itinerarioRegistro.getMaxVisitantes()));
         }
     }
 
     private boolean espaciosVacios() {
         if (txtFldHoraFin.getText().isEmpty() || txtFldMinutosFin.getText().isEmpty()
-                || txtFldNombreItinerario.getText().isBlank() || construirListaDias().isEmpty()||
-                this.listaEspecies.isEmpty()) {
+                || txtFldNombreItinerario.getText().isBlank() || construirListaDias().isEmpty()
+                || this.listaEspecies.isEmpty()) {
             mostrarMensaje("El itinerario no tiene los datos completos.");
             return true;
         }
