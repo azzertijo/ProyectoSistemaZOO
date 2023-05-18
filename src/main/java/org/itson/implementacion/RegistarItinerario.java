@@ -43,12 +43,9 @@ public class RegistarItinerario {
         }
     }
   
-    public Itinerario crearItinerario(float longitud, int maxVisitantes, int numEspecies, String nombre, ObjectId guia, List<Dias> dias, LocalTime horaInicio, LocalTime horaFin, List<Especie> especies) {
-        try {
-            especies= administrarItinerario.recuperarDatosFormulario();
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(RegistarItinerario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Itinerario crearItinerario(float longitud, int maxVisitantes, int numEspecies, String nombre, ObjectId guia, List<Dias> dias, LocalTime horaInicio, LocalTime horaFin, List<String> espSeleccionadas) {
+         List<Especie> especies= new ArrayList<Especie>();
+         especies= cargarTablaRegistro(espSeleccionadas);
         Itinerario itinerarioRegistro = new Itinerario(longitud, maxVisitantes, numEspecies, nombre, guia, dias, horaInicio, horaFin, especies);
         if (itinerarioRegistro != null) {
             return itinerarioRegistro;
@@ -65,10 +62,25 @@ public class RegistarItinerario {
         }
     }
     
-     public List<Especie> cargarTablaRegistro(){
+    public List<Especie> cargarTablaRegistroCompleto(){
           List<Especie> especies = new ArrayList<Especie>();
         try {
            especies= administrarItinerario.recuperarDatosFormulario();
+        } catch (PersistenciaException ex) {
+            mostrarMensaje(ex.getMessage());
+        }
+        return especies;
+     }
+    
+     public List<Especie> cargarTablaRegistro(List<String> espSeleccionadas){
+          List<Especie> especies = new ArrayList<Especie>();
+        try {
+           especies= administrarItinerario.recuperarDatosFormulario();
+           for(int i=0; i<especies.size();i++){
+               if(!(espSeleccionadas.contains(especies.get(i).getNomEspanol()))){
+                   especies.remove(i);
+               }
+           }
         } catch (PersistenciaException ex) {
             mostrarMensaje(ex.getMessage());
         }

@@ -14,8 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 import org.bson.types.ObjectId;
 import org.itson.implementacion.RegistarItinerario;
 import org.itson.implementacion.Validador;
@@ -33,9 +36,10 @@ public class FrmRegistro extends javax.swing.JFrame {
      */
     private Validador validador = new Validador();
     RegistarItinerario registrar = new RegistarItinerario();
+    private List<String> listaEspecies=new ArrayList<String>();;
 
     private void cargarEspecies() {
-        List<Especie> lista = registrar.cargarTablaRegistro();
+        List<Especie> lista = registrar.cargarTablaRegistroCompleto();
         DefaultTableModel model = (DefaultTableModel) jTableRegistro.getModel();
         model.setRowCount(lista.size());
         for (int i = 0; i < lista.size(); i++) {
@@ -144,21 +148,27 @@ public class FrmRegistro extends javax.swing.JFrame {
         return dias;
     }
 
-    private LocalTime construirHoras(String hora) {
+    private LocalTime construirHoras(String hora, String minuto) {
+       /*
+
         String cadena = hora;
         String[] partes = cadena.split(":");
         String parte1 = partes[0];
         String parte2 = partes[1];
+        */
 
-        LocalTime horaInicio = LocalTime.of(Integer.parseInt(parte1), Integer.parseInt(parte2));
+        LocalTime horaInicio = LocalTime.of(Integer.parseInt(hora), Integer.parseInt(minuto));
+        System.out.println(horaInicio);
         return horaInicio;
     }
 
     private void aramarItinerario() {
         ObjectId idGuia = new ObjectId("64647b7c99af833b487c674e");
 
+        //aqui utilizar el metodo construirhorafin e inicio falta implementarlo
+        
         Itinerario itinerarioRegistro = registrar.crearItinerario(0, 0, 0, obtenerNombreItinerario(), idGuia,
-                construirListaDias(), construirHoras(obtenerHoraInicio()), construirHoras(obtenerHoraFin()), null);
+                construirListaDias(), construirHoras(this.txtFldHoraInicio.getText(),txtFldMinutosInicio.getText()), construirHoras(this.txtFldHoraFin.getText(),txtFldMinutosFin.getText()), this.listaEspecies);
         registrar.registarItinerario(itinerarioRegistro);
         txtFldNumMaxVisitantes.setText(String.valueOf(itinerarioRegistro.getMaxVisitantes()));
         txtFldDuracionMin.setText(String.valueOf("10"));
@@ -235,25 +245,38 @@ public class FrmRegistro extends javax.swing.JFrame {
         jTableRegistro.setForeground(new java.awt.Color(51, 102, 0));
         jTableRegistro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Especies", "Zonas"
+                "Especies", "Zonas", "Seleccionado"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableRegistroMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableRegistro);
 
         pnlRegistro.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 410, 330));
@@ -443,6 +466,11 @@ public class FrmRegistro extends javax.swing.JFrame {
         });
         pnlRegistro.add(txtFldHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 660, 60, 30));
 
+        txtFldHoraFin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldHoraFinActionPerformed(evt);
+            }
+        });
         txtFldHoraFin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtFldHoraFinKeyPressed(evt);
@@ -465,16 +493,14 @@ public class FrmRegistro extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 1318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 902, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("JRegistro");
@@ -520,6 +546,17 @@ public class FrmRegistro extends javax.swing.JFrame {
         // TODO add your handling code here:
         validador.validarHorario(evt, this.txtFldHoraFin, 24);
     }//GEN-LAST:event_txtFldHoraFinKeyPressed
+
+    private void jTableRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableRegistroMouseClicked
+        if(this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 2).equals(true)){
+            this.listaEspecies.add((String) this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
+            System.out.println(this.jTableRegistro.getValueAt(this.jTableRegistro.getSelectedRow(), 0));
+        }
+    }//GEN-LAST:event_jTableRegistroMouseClicked
+
+    private void txtFldHoraFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraFinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldHoraFinActionPerformed
 
     /**
      * @param args the command line arguments
