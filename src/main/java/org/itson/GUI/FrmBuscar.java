@@ -221,6 +221,7 @@ public class FrmBuscar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void cargarBusqueda(Itinerario itinerario) {
+         model.setRowCount(1);
         model.setValueAt(itinerario.getNombre(), 0, 0);
         model.setValueAt(itinerario.getDias(), 0, 1);
         model.setValueAt(itinerario.getHoraInicio() + " - " + itinerario.getHoraFin(), 0, 2);
