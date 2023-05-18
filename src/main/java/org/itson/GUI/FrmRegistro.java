@@ -82,7 +82,7 @@ public class FrmRegistro extends javax.swing.JFrame {
      * @return hora de fin del itinerario.
      */
     private String obtenerHoraFin() {
-        String hora = txtFldHoraFin.getText();
+        String hora = txtFldMinutosFin.getText();
         try {
             validador.validaHora(hora);
             return hora;
@@ -160,7 +160,7 @@ public class FrmRegistro extends javax.swing.JFrame {
     }
 
     private boolean espaciosVacios() {
-        if (txtFldHoraInicio.getText().isEmpty() || txtFldHoraFin.getText().isEmpty()
+        if (txtFldHoraInicio.getText().isEmpty() || txtFldMinutosFin.getText().isEmpty()
                 || txtFldNombreItinerario.getText().isBlank() || construirListaDias().isEmpty()) {
             mostrarMensaje("El itinerario no tiene los datos completos.");
             return true;
@@ -188,11 +188,10 @@ public class FrmRegistro extends javax.swing.JFrame {
         jCheckBoxJueves = new javax.swing.JCheckBox();
         jCheckBoxViernes = new javax.swing.JCheckBox();
         jCheckBoxSabado = new javax.swing.JCheckBox();
-        txtFldHoraInicio = new java.awt.TextField();
-        txtFldHoraFin = new java.awt.TextField();
+        txtFldMinutosFin = new java.awt.TextField();
         jLblHoraI = new javax.swing.JLabel();
         jLblHoraF = new javax.swing.JLabel();
-        jLblFormato = new javax.swing.JLabel();
+        jLblMinutos = new javax.swing.JLabel();
         txtFldNumMaxVisitantes = new java.awt.TextField();
         jLblNomItinerario = new javax.swing.JLabel();
         txtFldNombreItinerario = new java.awt.TextField();
@@ -209,6 +208,11 @@ public class FrmRegistro extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        txtFldMinutosInicio = new java.awt.TextField();
+        txtFldHoraInicio = new java.awt.TextField();
+        txtFldHoraFin = new java.awt.TextField();
+        jLblFormato2 = new javax.swing.JLabel();
+        jLblHora = new javax.swing.JLabel();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -283,8 +287,7 @@ public class FrmRegistro extends javax.swing.JFrame {
         jCheckBoxSabado.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxSabado.setText("Sábado");
         pnlRegistro.add(jCheckBoxSabado, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 550, 100, -1));
-        pnlRegistro.add(txtFldHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 660, 90, 30));
-        pnlRegistro.add(txtFldHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 700, 90, 30));
+        pnlRegistro.add(txtFldMinutosFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 700, 60, 30));
 
         jLblHoraI.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         jLblHoraI.setForeground(new java.awt.Color(255, 255, 255));
@@ -296,17 +299,17 @@ public class FrmRegistro extends javax.swing.JFrame {
         jLblHoraF.setText("Hora fin:");
         pnlRegistro.add(jLblHoraF, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 700, 80, 20));
 
-        jLblFormato.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
-        jLblFormato.setForeground(new java.awt.Color(255, 255, 255));
-        jLblFormato.setText("Formato 24 hrs");
-        pnlRegistro.add(jLblFormato, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 630, -1, 20));
+        jLblMinutos.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
+        jLblMinutos.setForeground(new java.awt.Color(255, 255, 255));
+        jLblMinutos.setText("Minutos");
+        pnlRegistro.add(jLblMinutos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 640, -1, 20));
         pnlRegistro.add(txtFldNumMaxVisitantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 530, 82, 30));
 
         jLblNomItinerario.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         jLblNomItinerario.setForeground(new java.awt.Color(255, 255, 255));
         jLblNomItinerario.setText("Nombre del itinerario:");
-        pnlRegistro.add(jLblNomItinerario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 650, -1, 20));
-        pnlRegistro.add(txtFldNombreItinerario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 680, 210, 30));
+        pnlRegistro.add(jLblNomItinerario, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 650, -1, 20));
+        pnlRegistro.add(txtFldNombreItinerario, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 680, 210, 30));
         pnlRegistro.add(txtFldDuracionMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 530, 82, 30));
 
         jLblNumMaxVisitantes.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
@@ -409,6 +412,19 @@ public class FrmRegistro extends javax.swing.JFrame {
         );
 
         pnlRegistro.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 580, 410, 10));
+        pnlRegistro.add(txtFldMinutosInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 660, 60, 30));
+        pnlRegistro.add(txtFldHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 660, 60, 30));
+        pnlRegistro.add(txtFldHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 700, 60, 30));
+
+        jLblFormato2.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
+        jLblFormato2.setForeground(new java.awt.Color(255, 255, 255));
+        jLblFormato2.setText("Formato 24 hrs");
+        pnlRegistro.add(jLblFormato2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 610, 80, 30));
+
+        jLblHora.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
+        jLblHora.setForeground(new java.awt.Color(255, 255, 255));
+        jLblHora.setText("Hora");
+        pnlRegistro.add(jLblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 640, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -495,10 +511,12 @@ public class FrmRegistro extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxSabado;
     private javax.swing.JCheckBox jCheckBoxViernes;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLblFormato;
     private javax.swing.JLabel jLblFormato1;
+    private javax.swing.JLabel jLblFormato2;
+    private javax.swing.JLabel jLblHora;
     private javax.swing.JLabel jLblHoraF;
     private javax.swing.JLabel jLblHoraI;
+    private javax.swing.JLabel jLblMinutos;
     private javax.swing.JLabel jLblNomItinerario;
     private javax.swing.JLabel jLblNumMaxVisitantes;
     private javax.swing.JLabel jLblTituloDias;
@@ -514,6 +532,8 @@ public class FrmRegistro extends javax.swing.JFrame {
     private java.awt.TextField txtFldDuracionMin;
     private java.awt.TextField txtFldHoraFin;
     private java.awt.TextField txtFldHoraInicio;
+    private java.awt.TextField txtFldMinutosFin;
+    private java.awt.TextField txtFldMinutosInicio;
     private java.awt.TextField txtFldNombreItinerario;
     private java.awt.TextField txtFldNumMaxVisitantes;
     // End of variables declaration//GEN-END:variables
