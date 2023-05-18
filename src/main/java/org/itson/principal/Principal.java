@@ -1,14 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+/**
+ * Clase Principal.java creada el 16/05/2023.
  */
 package org.itson.principal;
 
 import org.itson.GUI.FrmGuia;
 
 /**
+ * Clase principal para iniciar el programa
  *
- * @author kim
+ * @author kim, marki, elmer, yorx
  */
 public class Principal {
 
@@ -19,5 +19,5 @@ public class Principal {
         FrmGuia frmGuia = new FrmGuia();
         frmGuia.setVisible(true);
     }
-    
+
 }

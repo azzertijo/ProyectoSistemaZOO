@@ -35,8 +35,6 @@ public class Validador {
         }
     }
 
-
-    
     /**
      * Método que valida si el usuario ingreso bien el nombre de un itinerario
      * mediante expresiones regulares, no acepta caracteres especiales.
@@ -55,8 +53,16 @@ public class Validador {
             throw new Exception("Nombre inválido.");
         }
     }
-    
-        public void validarHorario(java.awt.event.KeyEvent evt, TextField txtField, int tiempoMax) {
+
+    /**
+     * Método que se encarga de validar que un horario sea el correcto,
+     * respetando un formato 24 horas, separando horas y minutos.
+     *
+     * @param evt evento KeyEvent
+     * @param txtField del campo que quiere validarse
+     * @param tiempoMax si es minutos se pone 60 y si son horas se ponen 24.
+     */
+    public void validarHorario(java.awt.event.KeyEvent evt, TextField txtField, int tiempoMax) {
         char num = evt.getKeyChar();
         if (!Character.isDigit(num)) {
             evt.consume();
