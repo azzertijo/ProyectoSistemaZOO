@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
 import org.itson.implementacion.RegistarItinerario;
 import org.itson.implementacion.Validador;
@@ -28,12 +29,23 @@ public class FrmRegistro extends javax.swing.JFrame {
     private Validador validador = new Validador();
     RegistarItinerario registrar = new RegistarItinerario();
 
+    private void cargarEspecies() {
+        List<Especie> lista = registrar.cargarTablaRegistro();
+        DefaultTableModel model = (DefaultTableModel) jTableRegistro.getModel();
+        model.setRowCount(lista.size());
+        for (int i = 0; i < lista.size(); i++) {
+            model.setValueAt(lista.get(i).getNomEspanol(), i, 0);
+            model.setValueAt(lista.get(i).getZona().getNombre(), i, 1);
+        }
+    }
+
     /**
      * Creates new form FrmRegistro
      */
     public FrmRegistro() {
         initComponents();
         jLabel1.setIcon(new javax.swing.ImageIcon("src\\main\\java\\org\\itson\\img\\mapaZoo.jpg"));
+        cargarEspecies();
         txtFldNumMaxVisitantes.setEditable(false);
         txtFldDuracionMin.setEditable(false);
     }

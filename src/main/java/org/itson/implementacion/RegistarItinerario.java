@@ -9,6 +9,7 @@ import ObjNegocio.Especie;
 import ObjNegocio.Itinerario;
 import java.util.List;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -63,4 +64,14 @@ public class RegistarItinerario {
            mostrarMensaje(ex.getMessage());
         }
     }
+    
+     public List<Especie> cargarTablaRegistro(){
+          List<Especie> especies = new ArrayList<Especie>();
+        try {
+           especies= administrarItinerario.recuperarDatosFormulario();
+        } catch (PersistenciaException ex) {
+            mostrarMensaje(ex.getMessage());
+        }
+        return especies;
+     }
 }
