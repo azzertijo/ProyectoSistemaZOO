@@ -278,6 +278,7 @@ public class FrmBuscar extends javax.swing.JFrame {
 
     private void btnItinerarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnItinerarioActionPerformed
         if(this.txtFieldNombreItinerario.getText().isBlank()){
+            mostrarMensaje("No hay un nombre a buscar");
             return;
         }
         IMostrarItinerarios mostrarItin=new MostrarItineariosFachada();

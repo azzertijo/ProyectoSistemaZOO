@@ -57,6 +57,7 @@ public class RegistarItinerario {
     public void registarItinerario(Itinerario itinerario){
         try {
             administrarItinerario.registrarItinerario(itinerario);
+            mostrarMensaje("El itinerario se registró");
         } catch (PersistenciaException ex) {
            mostrarMensaje(ex.getMessage());
         }

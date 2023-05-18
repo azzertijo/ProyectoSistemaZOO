@@ -244,6 +244,7 @@ public class FrmRegistro extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         imagenMapa = new javax.swing.JLabel();
+        btnRegistrar3 = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -414,7 +415,12 @@ public class FrmRegistro extends javax.swing.JFrame {
         btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btnCancelar.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setText("Volver a guías");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         pnlRegistro.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 680, 150, 30));
 
         jPanel2.setBackground(new java.awt.Color(103, 142, 25));
@@ -546,6 +552,17 @@ public class FrmRegistro extends javax.swing.JFrame {
         pnlRegistro.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 180, 20, 20));
         pnlRegistro.add(imagenMapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 20, 450, 390));
 
+        btnRegistrar3.setBackground(new java.awt.Color(255, 255, 255));
+        btnRegistrar3.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
+        btnRegistrar3.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegistrar3.setText("Reset");
+        btnRegistrar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrar3ActionPerformed(evt);
+            }
+        });
+        pnlRegistro.add(btnRegistrar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 610, 90, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -574,7 +591,7 @@ public class FrmRegistro extends javax.swing.JFrame {
      * @param evt
      */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        // TODO add your handling code here:
+        
         if (espaciosVacios() == true) {
 
         } else {
@@ -616,6 +633,16 @@ public class FrmRegistro extends javax.swing.JFrame {
         validador.validarHorario(evt, this.txtFldHoraInicio, 24);
     }//GEN-LAST:event_txtFldHoraInicioKeyTyped
 
+    private void btnRegistrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar3ActionPerformed
+        new FrmRegistro(this.guiaSeleccionado).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegistrar3ActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+       new FrmGuia().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -654,6 +681,7 @@ public class FrmRegistro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRegistrar3;
     private javax.swing.JLabel imagenMapa;
     private javax.swing.JCheckBox jCheckBoxDomingo;
     private javax.swing.JCheckBox jCheckBoxJueves;
