@@ -1,6 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * Clase SeleccionarGuia.java creada el 16/05/2023.
  */
 package org.itson.implementacion;
 
@@ -15,13 +14,21 @@ import org.itson.fachada.IAdministrarItinerarios;
 import org.itson.fachada.excepciones.PersistenciaException;
 
 /**
+ * Clase que posee los métodos para recuperar a los guias
  *
- * @author kim
+ * @author kim, marki, elmer, yorx
  */
 public class SeleccionarGuia {
 
+    /**
+     * Atributo que nos ayuda a trarnos los métodos de la fachada del subsitema
+     * de administrar itinerarios.
+     */
     IAdministrarItinerarios administrarItinerario;
 
+    /**
+     * Constructor por defecto que crea la base de datos
+     */
     public SeleccionarGuia() {
 
         try {
@@ -39,12 +46,17 @@ public class SeleccionarGuia {
         JOptionPane.showMessageDialog(null, msj, "Información", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Método que recupera los guias registrados en la base de datos
+     *
+     * @return lista de guias
+     */
     public List<Guia> recuperarGuias() {
         List<Guia> guias = new ArrayList();
         try {
-            guias=administrarItinerario.recuperarGuias();
+            guias = administrarItinerario.recuperarGuias();
         } catch (PersistenciaException ex) {
-          mostrarMensaje(ex.getMessage());
+            mostrarMensaje(ex.getMessage());
         }
         return guias;
     }

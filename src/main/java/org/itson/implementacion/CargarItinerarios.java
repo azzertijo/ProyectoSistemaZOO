@@ -1,6 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * Clase CargarItinerario.java creada el 16/05/2023.
  */
 package org.itson.implementacion;
 
@@ -16,10 +15,14 @@ import org.itson.fachada.excepciones.PersistenciaException;
 
 /**
  *
- * @author eruma
+ * @author kim, marki, elmer, yorx
  */
 public class CargarItinerarios {
 
+      /**
+     * Atributo que nos ayuda a trarnos los métodos de la fachada
+     * del subsitema de administrar itinerarios.
+     */
     private IAdministrarItinerarios adminItinerarios;
 
     /**
@@ -30,6 +33,9 @@ public class CargarItinerarios {
         JOptionPane.showMessageDialog(null, msj, "Información", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Constructor por defecto que especifica o crea la base con la cual se trabajara
+     */
     public CargarItinerarios() {
         try {
             this.adminItinerarios = new AdministrarItinerariosFachada("ZOO");
@@ -38,6 +44,12 @@ public class CargarItinerarios {
         }
     }
 
+    /**
+     * Método que consulta los itinerarios de cierto guía que existen la base para con 
+     * ello poder cargar una tabla
+     * @param id del guía que se quieren conocer los itinerarios
+     * @return lista de itinerarios de un guía en especifico 
+     */
     public List<Itinerario> cargarItinerariosGuia(String id) {
         List<Itinerario> lista = new ArrayList<Itinerario>();
         try {
@@ -48,6 +60,11 @@ public class CargarItinerarios {
         return lista;
     }
 
+    /**
+     * Método que nos permite buscar itinerarios por un nombre especifico
+     * @param nom nombre del itinerario que se desea recuperar
+     * @return el itinerario que coincide con el nombre ingresado.
+     */
     public Itinerario filtro(String nom) {
         Itinerario consultado = null;
         try {
