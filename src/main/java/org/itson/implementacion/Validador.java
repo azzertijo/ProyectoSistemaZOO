@@ -3,6 +3,7 @@
  */
 package org.itson.implementacion;
 
+import java.awt.TextField;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -57,6 +58,24 @@ public class Validador {
             return true;
         } else {
             throw new Exception("Nombre inválido.");
+        }
+    }
+    
+        public void validarHorario(java.awt.event.KeyEvent evt, TextField txtField, int tiempoMax) {
+        char num = evt.getKeyChar();
+        if (!Character.isDigit(num)) {
+            evt.consume();
+            return;
+        }
+        if (!txtField.getText().equalsIgnoreCase("")) {
+            if (txtField.getText().length() <= 1) {
+                String numeroCompleto = txtField.getText() + String.valueOf(num);
+                if (Integer.parseInt(numeroCompleto) >= tiempoMax) {
+                    evt.consume();
+                }
+            } else {
+                evt.consume();
+            }
         }
     }
 

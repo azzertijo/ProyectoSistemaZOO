@@ -6,6 +6,7 @@ package org.itson.GUI;
 import ObjNegocio.Dias;
 import ObjNegocio.Especie;
 import ObjNegocio.Itinerario;
+import java.awt.TextField;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DELETE;
 import java.time.LocalTime;
@@ -291,6 +292,12 @@ public class FrmRegistro extends javax.swing.JFrame {
         jCheckBoxSabado.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBoxSabado.setText("Sábado");
         pnlRegistro.add(jCheckBoxSabado, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 550, 100, -1));
+
+        txtFldMinutosFin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFldMinutosFinKeyTyped(evt);
+            }
+        });
         pnlRegistro.add(txtFldMinutosFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 700, 60, 30));
 
         jLblHoraI.setFont(new java.awt.Font("Gadugi", 1, 14)); // NOI18N
@@ -417,11 +424,6 @@ public class FrmRegistro extends javax.swing.JFrame {
 
         pnlRegistro.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 580, 410, 10));
 
-        txtFldMinutosInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFldMinutosInicioActionPerformed(evt);
-            }
-        });
         txtFldMinutosInicio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtFldMinutosInicioKeyTyped(evt);
@@ -434,7 +436,18 @@ public class FrmRegistro extends javax.swing.JFrame {
                 txtFldHoraInicioActionPerformed(evt);
             }
         });
+        txtFldHoraInicio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFldHoraInicioKeyTyped(evt);
+            }
+        });
         pnlRegistro.add(txtFldHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 660, 60, 30));
+
+        txtFldHoraFin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFldHoraFinKeyPressed(evt);
+            }
+        });
         pnlRegistro.add(txtFldHoraFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 700, 60, 30));
 
         jLblFormato2.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
@@ -485,31 +498,28 @@ public class FrmRegistro extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    private void txtFldMinutosInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldMinutosInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFldMinutosInicioActionPerformed
-
     private void txtFldHoraInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldHoraInicioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFldHoraInicioActionPerformed
 
     private void txtFldMinutosInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosInicioKeyTyped
-        char num = evt.getKeyChar();
-        if (!Character.isDigit(num)) {
-            evt.consume();
-            return;
-        }
-        if (!this.txtFldMinutosInicio.getText().equalsIgnoreCase("")) {
-            if (this.txtFldMinutosInicio.getText().length() <= 1) {
-                String numeroCompleto=this.txtFldMinutosInicio.getText()+String.valueOf(num);
-                if (Integer.parseInt(numeroCompleto)>=60) {
-                    evt.consume();
-                }
-            } else {
-                evt.consume();
-            }
-        }
+        validador.validarHorario(evt, this.txtFldMinutosInicio, 60);
     }//GEN-LAST:event_txtFldMinutosInicioKeyTyped
+
+    private void txtFldMinutosFinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldMinutosFinKeyTyped
+        // TODO add your handling code here:
+        validador.validarHorario(evt, this.txtFldMinutosFin, 60);
+    }//GEN-LAST:event_txtFldMinutosFinKeyTyped
+
+    private void txtFldHoraInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldHoraInicioKeyTyped
+        // TODO add your handling code here:
+        validador.validarHorario(evt, this.txtFldHoraInicio, 24);
+    }//GEN-LAST:event_txtFldHoraInicioKeyTyped
+
+    private void txtFldHoraFinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFldHoraFinKeyPressed
+        // TODO add your handling code here:
+        validador.validarHorario(evt, this.txtFldHoraFin, 24);
+    }//GEN-LAST:event_txtFldHoraFinKeyPressed
 
     /**
      * @param args the command line arguments
